@@ -20,7 +20,7 @@ const config = {
     extend: {
       colors: {
         primaryCol: "#580ac5",
-        bg: "#f0f0f5",
+        bg: "#ffffff",
         text: "#000000",
         darkText: "#ffffff",
         darkBg: "#0b0b10",
@@ -62,6 +62,9 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      screens: {
+        xs: "400px",
       },
       fontFamily: {
         roboto: ["var(--font-roboto)"],

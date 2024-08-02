@@ -31,9 +31,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} ${roboto.variable} flex gap-x-2`}>
+      <body
+        className={`${poppins.className} ${roboto.variable} flex gap-x-2 bg-bg`}
+      >
         <Toaster richColors position="top-right" />
-        <aside className="w-full max-w-[300px] sticky top-0 h-screen overflow-y-auto border border-r">
+        <aside className="lg:w-full w-fit lg:max-w-[300px] sticky top-0 h-screen overflow-y-auto border border-r">
           <Sidebar />
         </aside>
         <main className="min-h-[200vh]">
