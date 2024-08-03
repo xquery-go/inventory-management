@@ -8,7 +8,7 @@ export const Sidebar = () => {
     <div className="flex flex-col justify-between gap-y-5 h-full">
       <div>
         <div className="sm:px-5 px-2 lg:py-10 py-5">
-          <h2 className="text-5xl font-semibold text-text max-lg:hidden">
+          <h2 className="text-5xl font-semibold text-text dark:text-darkText max-lg:hidden">
             Pyzon
           </h2>
           <Codepen className="lg:hidden sm:size-10 size-7" />
@@ -19,12 +19,14 @@ export const Sidebar = () => {
             <Link
               href={link.path}
               key={index}
-              className={`flex max-lg:justify-center hover:bg-neutral-100 transition-all duration-100 gap-x-2 items-center text-text py-5 sm:px-5 px-2 border-b ${
+              className={`flex max-lg:justify-center hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-all duration-100 gap-x-2 items-center text-text py-5 sm:px-5 px-2 border-b dark:border-neutral-800 ${
                 index === 0 && "border-t"
               }`}
             >
               {link.icon}
-              <p className="max-lg:hidden">{link.name}</p>
+              <p className="max-lg:hidden dark:text-darkText text-text">
+                {link.name}
+              </p>
             </Link>
           ))}
         </nav>

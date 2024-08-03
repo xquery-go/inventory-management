@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header, Sidebar } from "@/components/shared";
 import { Poppins, Roboto } from "next/font/google";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/store/ThemeProvider";
 
 const poppins = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
@@ -32,16 +33,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} ${roboto.variable} flex gap-x-2 bg-bg`}
+        className={`${poppins.className} ${roboto.variable} flex bg-bg dark:bg-darkBg `}
       >
-        <Toaster richColors position="top-right" />
-        <aside className="lg:w-full w-fit lg:max-w-[300px] sticky top-0 h-screen overflow-y-auto border border-r">
-          <Sidebar />
-        </aside>
-        <main className="min-h-[200vh]">
-          <Header />
-          {children}
-        </main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Toaster richColors position="top-right" />
+          <aside className="lg:w-full w-fit lg:max-w-[300px] sticky top-0 h-screen overflow-y-auto border border-r dark:border-neutral-800">
+            <Sidebar />
+          </aside>
+          <main className="min-h-[200vh] w-full">
+            <Header />
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );

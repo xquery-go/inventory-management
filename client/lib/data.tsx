@@ -8,12 +8,36 @@ import {
 } from "lucide-react";
 
 export const navLinks = [
-  { name: "Dashboard", path: "/", icon: <LayoutDashboard /> },
-  { name: "Inventory", path: "/inventory", icon: <NotebookPen /> },
-  { name: "Products", path: "/products", icon: <Archive /> },
-  { name: "Users", path: "/users", icon: <Users /> },
-  { name: "Orders", path: "/orders", icon: <ListOrdered /> },
-  { name: "Settings", path: "/settings", icon: <Settings /> },
+  {
+    name: "Dashboard",
+    path: "/",
+    icon: <LayoutDashboard className="text-text dark:text-darkText" />,
+  },
+  {
+    name: "Inventory",
+    path: "/inventory",
+    icon: <NotebookPen className="text-text dark:text-darkText" />,
+  },
+  {
+    name: "Products",
+    path: "/products",
+    icon: <Archive className="text-text dark:text-darkText" />,
+  },
+  {
+    name: "Users",
+    path: "/users",
+    icon: <Users className="text-text dark:text-darkText" />,
+  },
+  {
+    name: "Orders",
+    path: "/orders",
+    icon: <ListOrdered className="text-text dark:text-darkText" />,
+  },
+  {
+    name: "Settings",
+    path: "/settings",
+    icon: <Settings className="text-text dark:text-darkText" />,
+  },
 ];
 
 export const products = [
