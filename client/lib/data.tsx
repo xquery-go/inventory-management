@@ -221,3 +221,63 @@ export const orderDetailsHeaders = [
   { name: "Quantity", key: "quantity" },
   { name: "Total", key: "total" },
 ];
+
+export const usersTableHeaders = [
+  { name: "Name", key: "name" },
+  { name: "Email", key: "email" },
+  { name: "Phone", key: "phone" },
+  { name: "Address", key: "address" },
+  { name: "Date Joined", key: "dateJoined" },
+  // { name: "Actions", key: "actions" },
+];
+
+export const usersData = [
+  {
+    name: "John Doe",
+    image: "/images/dummy-user.webp",
+    email: "john@gmail.com",
+    phone: "+1234567890",
+    address: "123, Lorem Ipsum, Dolor Sit, Amet",
+    dateJoined: "12/10/2021",
+  },
+  {
+    name: "John Doe",
+    image: "/images/dummy-user.webp",
+    email: "john@gmail.com",
+    phone: "+1234567890",
+    address: "123, Lorem Ipsum, Dolor Sit, Amet",
+    dateJoined: "12/10/2021",
+  },
+  {
+    name: "John Doe",
+    image: "/images/dummy-user.webp",
+    email: "john@gmail.com",
+    phone: "+1234567890",
+    address: "123, Lorem Ipsum, Dolor Sit, Amet",
+    dateJoined: "12/10/2021",
+  },
+  {
+    name: "John Doe",
+    image: "/images/dummy-user.webp",
+    email: "john@gmail.com",
+    phone: "+1234567890",
+    address: "123, Lorem Ipsum, Dolor Sit, Amet",
+    dateJoined: "12/10/2021",
+  },
+  {
+    name: "John Doe",
+    image: "/images/dummy-user.webp",
+    email: "john@gmail.com",
+    phone: "+1234567890",
+    address: "123, Lorem Ipsum, Dolor Sit, Amet",
+    dateJoined: "12/10/2021",
+  },
+  {
+    name: "John Doe",
+    image: "/images/dummy-user.webp",
+    email: "john@gmail.com",
+    phone: "+1234567890",
+    address: "123, Lorem Ipsum, Dolor Sit, Amet",
+    dateJoined: "12/10/2021",
+  },
+];

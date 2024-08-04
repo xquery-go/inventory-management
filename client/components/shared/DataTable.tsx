@@ -13,7 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { products, ordersData } from "@/lib/data";
+import { products, ordersData, usersData } from "@/lib/data";
 import { EllipsisVertical } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -161,6 +161,29 @@ export const DataTable = ({
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
+                </TableRow>
+              ))}
+
+            {isUsers &&
+              usersData.map((user, idx) => (
+                <TableRow
+                  className="dark:hover:bg-neutral-900 dark:border-neutral-800 overflow-x-hidden"
+                  key={idx}
+                >
+                  <TableCell className="min-w-[250px] flex items-center gap-x-2">
+                    <Image
+                      src={user.image}
+                      alt={user.name}
+                      width={200}
+                      height={200}
+                      className="object-cover size-10 rounded-full"
+                    />
+                    <p className="text-text dark:text-darkText">{user.name}</p>
+                  </TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.phone}</TableCell>
+                  <TableCell>{user.address}</TableCell>
+                  <TableCell>{user.dateJoined}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

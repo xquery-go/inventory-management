@@ -115,16 +115,16 @@ const OrderTrackPage = ({ params }: { params: { id: string } }) => {
           </TableBody>
         </Table>
         <div className="mt-2 pt-5 flex justify-end border-t border-neutral-300 dark:border-neutral-600">
-          <div className="w-[20%]">
-            <p>
+          <div className="lg:w-[20%] w-full">
+            <p className="text-sm text-pretty tracking-wide">
               Subtotal:{" "}
               <span className="font-medium">${orderDetails.totalBill}</span>
             </p>
-            <p>
+            <p className="text-sm text-pretty tracking-wide">
               Discount:{" "}
               <span className="font-medium">${orderDetails.discount}</span>
             </p>
-            <p>
+            <p className="text-sm text-pretty tracking-wide">
               Coupon:{" "}
               <span className="font-medium">{orderDetails.couponCode}</span>
             </p>
@@ -137,23 +137,23 @@ const OrderTrackPage = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       {/* Customer Details */}
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-5 mt-10">
+      <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-5 mt-10">
         <div className="md:col-span-2 rounded-md bg-neutral-100 dark:bg-neutral-800 py-5 px-4">
           <h3 className="text-lg font-semibold mb-2">Customer Details</h3>
           <div>
-            <p>
+            <p className="text-sm text-pretty tracking-wide">
               Name:{" "}
               <span className="font-medium">{orderDetails.customer.name}</span>
             </p>
-            <p>
+            <p className="text-sm text-pretty tracking-wide">
               Phone:{" "}
               <span className="font-medium">{orderDetails.customer.phone}</span>
             </p>
-            <p>
+            <p className="text-sm text-pretty tracking-wide">
               Email:{" "}
               <span className="font-medium">{orderDetails.customer.email}</span>
             </p>
-            <p>
+            <p className="text-sm text-pretty tracking-wide">
               Address:{" "}
               <span className="font-medium">
                 {orderDetails.customer.address}
@@ -164,16 +164,20 @@ const OrderTrackPage = ({ params }: { params: { id: string } }) => {
         {/* Billing Address */}
         <div className="rounded-md bg-neutral-100 dark:bg-neutral-800 py-5 px-4">
           <h3 className="text-lg font-semibold mb-2">Shipping Address</h3>
-          <p>{orderDetails.shippingAddress}</p>
+          <p className="text-sm text-pretty tracking-wide">
+            {orderDetails.shippingAddress}
+          </p>
         </div>
         {/* Shipping Address s*/}
         <div className="rounded-md bg-neutral-100 dark:bg-neutral-800 py-5 px-4">
           <h3 className="text-lg font-semibold mb-2">Billing Address</h3>
-          <p>{orderDetails.billingAddress}</p>
+          <p className="text-sm text-pretty tracking-wide">
+            {orderDetails.billingAddress}
+          </p>
         </div>
         <div className="rounded-md bg-neutral-100 dark:bg-neutral-800 py-5 px-4">
           <h3 className="text-lg font-semibold mb-2">Payment Details</h3>
-          <p>
+          <p className="text-sm text-pretty tracking-wide">
             Method:{" "}
             <span className="font-medium">{orderDetails.paymentMethod}</span>
           </p>
