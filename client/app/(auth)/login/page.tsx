@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { FloatingInput } from "@/components/ui/FloatingInput";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -28,28 +29,28 @@ const LoginPage = () => {
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof loginSchema>> = async (data) => {
-    const { response, success } = await mutateAsync(data);
-    if (success) {
-      // setUser(response.user);
-      localStorage.setItem("token", response.accessToken);
-      toast.success("Login successfull");
-      router.push("/");
-    } else return toast.error(response as string);
+    // const { response, success } = await mutateAsync(data);
+    // if (success) {
+    //   // setUser(response.user);
+    //   localStorage.setItem("token", response.accessToken);
+    //   toast.success("Login successfull");
+    //   router.push("/");
+    // } else return toast.error(response as string);
+    console.log(data);
   };
 
   return (
     <section className="max-w-lg mx-auto w-full max-xs:px-4 z-10">
-      <h2 className="font-bold text-5xl text-center">Sign In</h2>
+      <h2 className="font-bold text-5xl text-center">Log In</h2>
       <p className="text-neutral-400 text-sm font-roboto font-normal text-center mt-5">
-        Sign in using your registered credentials to start chatting with your
-        friends and family.
+        Login using your credentials to access your account
       </p>
       <form
         className="max-w-md mx-auto bg-white rounded-3xl sm:p-8 p-2 z-10 mt-8 flex flex-col gap-y-7"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="relative">
-          <Input
+          <FloatingInput
             placeholder="Email Address"
             type="email"
             name="email"
@@ -63,7 +64,12 @@ const LoginPage = () => {
         </div>
 
         <div className="relative w-full mb-1">
-          <Input placeholder="Password" name="password" register={register} />
+          <PasswordInput
+            placeholder="Password"
+            type="password"
+            name="password"
+            register={register}
+          />
           {errors.password && (
             <span className="mt-1 absolute text-red-500 text-[12px]">
               {errors.password.message}
@@ -102,13 +108,6 @@ const LoginPage = () => {
           Login
         </Button>
       </form>
-
-      <p className="text-para font-roboto mt-5 text-sm text-center">
-        Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-primaryCol underline font-medium">
-          Register now
-        </Link>
-      </p>
     </section>
   );
 };
