@@ -20,7 +20,7 @@ export const FloatingInput = <T extends FieldValues>({
         inputMode={inputMode}
         type={type || "text"}
         id={name}
-        className="z-[1] font-roboto relative px-2.5 pb-2.5 pt-2.5 w-full text-sm text-lightGray bg-transparent rounded-lg border border-borderCol appearance-none focus:outline-none focus:ring-0 focus:border-primaryCol peer"
+        className="z-[1] font-roboto relative px-2.5 pb-2.5 pt-2.5 w-full text-sm text-lightGray bg-transparent rounded-lg border border-borderCol dark:border-neutral-800 appearance-none focus:outline-none focus:ring-0 focus:border-primaryCol dark:focus:border-primaryCol peer"
         placeholder=""
         {...register(name as Path<T>)}
       />

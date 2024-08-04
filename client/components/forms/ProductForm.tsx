@@ -6,6 +6,12 @@ import { Textarea } from "../ui/textarea";
 import Image from "next/image";
 import { convertImage } from "@/lib/helpers";
 import { FormEvent, useState } from "react";
+import { FloatingInput } from "../ui/FloatingInput";
+import { productSchema } from "@/validations/product.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { toast } from "sonner";
 
 interface FileInfo {
   file: File;
@@ -13,21 +19,13 @@ interface FileInfo {
 }
 
 export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
-  const [productData, setProductData] = useState({
-    title: "",
-    description: "",
-    price: 0,
-    quantity: 0,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof productSchema>>({
+    resolver: zodResolver(productSchema),
   });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setProductData({
-      ...productData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const [files, setFiles] = useState<FileInfo[]>([]);
 
@@ -49,22 +47,31 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log(productData);
+  const onSubmit: SubmitHandler<z.infer<typeof productSchema>> = async (
+    data
+  ) => {
+    if (!files.length) return toast.error("Add atleast 1 product image");
+    // const { response, success } = await mutateAsync(data);
+    // if (success) {
+    //   // setUser(response.user);
+    //   localStorage.setItem("token", response.accessToken);
+    //   toast.success("Login successfull");
+    //   router.push("/");
+    // } else return toast.error(response as string);
+    console.log(data);
   };
 
   return (
     <div>
       <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-y-2 pt-4 max-w-3xl"
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-y-7 pt-4 max-w-3xl"
       >
         <div>
           {/* Image input */}
           <label
             htmlFor="product-files"
-            className="bg-neutral-100 dark:bg-neutral-800 rounded-lg py-5 px-5 w-full center gap-x-1 cursor-pointer h-40 hover:bg-neutral-200 dark:hover:bg-neutral-800/80 transition-all duration-100"
+            className="bg-neutral-100 border dark:bg-neutral-800 dark:border-neutral-950 rounded-lg py-5 px-5 w-full center gap-x-1 cursor-pointer h-40 hover:bg-neutral-200 dark:hover:bg-neutral-800/80 transition-all duration-100"
           >
             <p>Add Images</p>
             <Plus />
@@ -78,7 +85,7 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
             onChange={(e) => handleFileChange(e.target.files)}
           />
           {/* Display images */}
-          <div className="mt-3 flex items-center gap-2 flex-wrap justify-start">
+          <div className="mt-3 flex items-center gap-3 flex-wrap justify-start">
             {files.map(({ preview }, index) => (
               <div className="relative" key={index}>
                 <Image
@@ -101,64 +108,70 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
             ))}
           </div>
         </div>
-        <div>
-          <label htmlFor="title">Product Title</label>
-          <Input
+
+        <div className="relative">
+          <FloatingInput
+            placeholder="Product Title"
             type="text"
-            id="title"
-            placeholder="Enter product title"
-            className="w-full my-1"
-            value={productData.title}
-            onChange={handleInputChange}
             name="title"
+            register={register}
           />
+          {errors.title && (
+            <span className="mt-1 absolute text-red-500 text-[12px]">
+              {errors.title.message}
+            </span>
+          )}
         </div>
-
-        <div>
-          <label htmlFor="desc">Product Description</label>
+        <div className="relative">
           <Textarea
-            rows={5}
-            id="desc"
-            placeholder="Enter product Description"
-            className="w-full my-1 resize-none"
-            value={productData.description}
-            onChange={handleInputChange}
+            placeholder="Product Description"
             name="description"
+            register={register}
+            className="resize-none"
           />
+          {errors.description && (
+            <span className="mt-1 absolute text-red-500 text-[12px]">
+              {errors.description.message}
+            </span>
+          )}
         </div>
-
-        <div>
-          <label htmlFor="price">Product Price</label>
-          <Input
+        <div className="relative">
+          <FloatingInput
+            placeholder="Price"
             type="number"
-            id="price"
-            placeholder="Enter product title"
-            className="w-full my-1"
-            value={productData.price}
-            min={0}
-            onChange={handleInputChange}
+            inputMode="numeric"
             name="price"
+            register={register}
+            min={0}
           />
+          {errors.price && (
+            <span className="mt-1 absolute text-red-500 text-[12px]">
+              {errors.price.message}
+            </span>
+          )}
         </div>
 
-        <div>
-          <label htmlFor="quantity">Product Quantity</label>
-          <Input
+        <div className="relative">
+          <FloatingInput
+            placeholder="Quantity"
             type="number"
-            id="quantity"
-            placeholder="Enter product title"
-            className="w-full my-1"
-            value={productData.quantity}
-            onChange={handleInputChange}
-            min={0}
+            inputMode="numeric"
             name="quantity"
+            register={register}
+            min={0}
           />
+          {errors.quantity && (
+            <span className="mt-1 absolute text-red-500 text-[12px]">
+              {errors.quantity.message}
+            </span>
+          )}
         </div>
         <Button
-          className="bg-primaryCol hover:bg-primaryCol/90 text-darkText"
+          className="disabled:opacity-50 mt-2 bg-primaryCol hover:bg-primaryCol/90 text-darkText"
           type="submit"
+          disabled={isSubmitting}
         >
-          Add
+          {isUpdate ? "Update Product" : "Add Product"}
         </Button>
       </form>
     </div>
