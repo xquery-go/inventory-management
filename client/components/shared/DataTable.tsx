@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -16,10 +17,14 @@ import { products, productTableHeaders } from "@/lib/data";
 import { EllipsisVertical } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { Pagination } from "../helpers";
+import { ConfirmationDialog, Pagination } from "../helpers";
 import Link from "next/link";
+import { useState } from "react";
 
 export const DataTable = () => {
+  const [open, setOpen] = useState(false);
+  const [alertType, setAlertType] = useState("delete");
+
   return (
     <div className="w-full mt-8">
       <div className="max-h-[58vh] overflow-y-auto">
@@ -70,7 +75,13 @@ export const DataTable = () => {
                       <Link href={`/products/update/12`}>
                         <DropdownMenuItem role="link">Update</DropdownMenuItem>
                       </Link>
-                      <DropdownMenuItem className="bg-red-500 focus:bg-red-600 focus:text-darkText dark:focus:bg-red-600 text-darkText">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setOpen(true);
+                          setAlertType("delete");
+                        }}
+                        className="bg-red-500 focus:bg-red-600 focus:text-darkText dark:focus:bg-red-600 text-darkText"
+                      >
                         Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -82,6 +93,7 @@ export const DataTable = () => {
         </Table>
       </div>
       <Pagination />
+      <ConfirmationDialog open={open} setOpen={setOpen} alertType={alertType} />
     </div>
   );
 };

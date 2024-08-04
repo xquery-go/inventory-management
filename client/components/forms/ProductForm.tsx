@@ -88,7 +88,7 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
                   height={200}
                   className={`${
                     index === 0 && "border-2 border-primaryCol"
-                  } rounded-md object-cover w-[120px]`}
+                  } rounded-md object-cover w-[120px] h-[100px]`}
                 />
                 <button
                   type="button"

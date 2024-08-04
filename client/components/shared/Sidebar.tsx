@@ -7,7 +7,7 @@ export const Sidebar = () => {
   return (
     <div className="flex flex-col justify-between gap-y-5 h-full">
       <div>
-        <div className="sm:px-5 px-2 lg:py-10 py-5">
+        <div className="sm:px-5 px-2 lg:py-10 py-5 max-sm:center">
           <h2 className="text-5xl font-semibold text-text dark:text-darkText max-lg:hidden">
             Pyzon
           </h2>
