@@ -36,7 +36,7 @@ export const DataTable = ({
   const [alertType, setAlertType] = useState("delete");
 
   return (
-    <div className="w-full mt-8">
+    <div className="w-full">
       <div className="max-h-[58vh] overflow-y-auto">
         <Table>
           <TableHeader>

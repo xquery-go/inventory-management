@@ -7,7 +7,9 @@ const UserPage = () => {
   return (
     <section className="section">
       <PageTitle title="Users" desc="View all signed up users." />
-      <DataTable headers={usersTableHeaders} isUsers />
+      <div className="mt-8">
+        <DataTable headers={usersTableHeaders} isUsers />
+      </div>
     </section>
   );
 };

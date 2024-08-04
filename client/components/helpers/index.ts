@@ -1,3 +1,4 @@
+import { Filter } from "./Filter";
 import { ConfirmationDialog } from "./ConfirmationDialog";
 import { Pagination } from "./Pagination";
 import { PageTitle } from "./PageTitle";
@@ -14,4 +15,5 @@ export {
   PageTitle,
   Pagination,
   ConfirmationDialog,
+  Filter,
 };
