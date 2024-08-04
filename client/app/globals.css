@@ -72,6 +72,9 @@
   .center {
     @apply flex items-center justify-center;
   }
+  .section {
+    @apply md:px-10 px-2 py-10;
+  }
 }
 
 .loader {

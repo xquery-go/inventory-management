@@ -42,10 +42,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Toaster richColors position="top-right" />
-          <aside className="lg:w-full w-fit lg:max-w-[300px] sticky top-0 h-screen overflow-y-auto border border-r dark:border-neutral-800">
+          <aside className="lg:w-full min-w-[60px] w-fit lg:max-w-[300px] sticky top-0 h-screen overflow-y-auto border border-r dark:border-neutral-800">
             <Sidebar />
           </aside>
-          <main className="min-h-[200vh] w-full">
+          <main className="w-full overflow-x-hidden">
             <Header />
             {children}
           </main>

@@ -23,7 +23,7 @@ const config = {
         bg: "#ffffff",
         text: "#000000",
         darkText: "#ffffff",
-        darkBg: "#0b0b10",
+        darkBg: "#101011",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
