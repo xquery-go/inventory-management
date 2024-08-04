@@ -14,10 +14,15 @@ export const navLinks = [
     icon: <LayoutDashboard className="text-text dark:text-darkText" />,
   },
   {
-    name: "Inventory",
-    path: "/inventory",
-    icon: <NotebookPen className="text-text dark:text-darkText" />,
+    name: "Orders",
+    path: "/orders",
+    icon: <ListOrdered className="text-text dark:text-darkText" />,
   },
+  // {
+  //   name: "Inventory",
+  //   path: "/inventory",
+  //   icon: <NotebookPen className="text-text dark:text-darkText" />,
+  // },
   {
     name: "Products",
     path: "/products",
@@ -28,16 +33,11 @@ export const navLinks = [
     path: "/users",
     icon: <Users className="text-text dark:text-darkText" />,
   },
-  {
-    name: "Orders",
-    path: "/orders",
-    icon: <ListOrdered className="text-text dark:text-darkText" />,
-  },
-  {
-    name: "Settings",
-    path: "/settings",
-    icon: <Settings className="text-text dark:text-darkText" />,
-  },
+  // {
+  //   name: "Settings",
+  //   path: "/settings",
+  //   icon: <Settings className="text-text dark:text-darkText" />,
+  // },
 ];
 
 export const products = [
@@ -138,4 +138,79 @@ export const productTableHeaders = [
   { name: "Ratings", key: "ratings" },
   { name: "Items Sold", key: "itemsSold" },
   { name: "Actions", key: "actions" },
+];
+
+export const ordersTableHeaders = [
+  { name: "Order ID", key: "orderId" },
+  { name: "Customer", key: "customer" },
+  { name: "Date", key: "date" },
+  { name: "Amount", key: "amount" },
+  { name: "Status", key: "status" },
+  { name: "Actions", key: "actions" },
+];
+
+export const ordersData = [
+  {
+    orderId: "#1234",
+    customer: "John Doe",
+    date: "12/10/2021",
+    amount: "$199",
+    status: "Pending",
+  },
+  {
+    orderId: "#1235",
+    customer: "Jane Doe",
+    date: "12/10/2021",
+    amount: "$149",
+    status: "Cancelled",
+  },
+  {
+    orderId: "#1236",
+    customer: "John Doe",
+    date: "12/10/2021",
+    amount: "$129",
+    status: "Delivered",
+  },
+  {
+    orderId: "#1237",
+    customer: "Jane Doe",
+    date: "12/10/2021",
+    amount: "$179",
+    status: "Delivered",
+  },
+  {
+    orderId: "#1238",
+    customer: "John Doe",
+    date: "12/10/2021",
+    amount: "$139",
+    status: "Pending",
+  },
+  {
+    orderId: "#1237",
+    customer: "Jane Doe",
+    date: "12/10/2021",
+    amount: "$179",
+    status: "Delivered",
+  },
+  {
+    orderId: "#1238",
+    customer: "John Doe",
+    date: "12/10/2021",
+    amount: "$139",
+    status: "Delivered",
+  },
+  {
+    orderId: "#1237",
+    customer: "Jane Doe",
+    date: "12/10/2021",
+    amount: "$179",
+    status: "Delivered",
+  },
+  {
+    orderId: "#1238",
+    customer: "John Doe",
+    date: "12/10/2021",
+    amount: "$139",
+    status: "Delivered",
+  },
 ];

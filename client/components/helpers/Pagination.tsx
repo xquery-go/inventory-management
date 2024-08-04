@@ -11,7 +11,7 @@ export const Pagination = () => {
       <Button
         variant="outline"
         size="icon"
-        className="!bg-primaryCol text-darkText !hover:bg-primaryCol/90"
+        className="!bg-primaryCol text-darkText !hover:bg-primaryCol/90 hover:text-darkText"
       >
         1
       </Button>

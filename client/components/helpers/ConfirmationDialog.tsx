@@ -32,7 +32,11 @@ export const ConfirmationDialog = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button onClick={() => setOpen(false)} variant="outline">
+          <Button
+            onClick={() => setOpen(false)}
+            variant="outline"
+            className="dark:bg-neutral-900 dark:hover:bg-neutral-950"
+          >
             Cancel
           </Button>
           <Button

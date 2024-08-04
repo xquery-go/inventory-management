@@ -46,7 +46,7 @@ const LoginPage = () => {
         Login using your credentials to access your account
       </p>
       <form
-        className="max-w-md mx-auto bg-white rounded-3xl sm:p-8 p-2 z-10 mt-8 flex flex-col gap-y-7"
+        className="max-w-md mx-auto bg-bg dark:bg-darkBg rounded-3xl sm:p-8 p-2 z-10 mt-8 flex flex-col gap-y-7"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="relative">
@@ -101,7 +101,7 @@ const LoginPage = () => {
 
         <Button
           role="submit"
-          className="py-6 bg-primaryCol hover:bg-primaryCol/90 text-[16px] rounded-lg"
+          className="py-6 bg-primaryCol hover:bg-primaryCol/90 text-[16px] rounded-lg text-darkText"
           size="lg"
           disabled={isSubmitting}
         >

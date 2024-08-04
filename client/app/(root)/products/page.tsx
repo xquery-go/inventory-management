@@ -1,6 +1,7 @@
 import { PageTitle } from "@/components/helpers";
 import { DataTable } from "@/components/shared";
 import { Button } from "@/components/ui/button";
+import { productTableHeaders } from "@/lib/data";
 import Link from "next/link";
 
 const ProductsPage = () => {
@@ -20,7 +21,7 @@ const ProductsPage = () => {
           </Button>
         </Link>
       </div>
-      <DataTable />
+      <DataTable headers={productTableHeaders} isProduct />
     </section>
   );
 };

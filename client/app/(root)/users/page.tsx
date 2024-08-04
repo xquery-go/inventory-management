@@ -1,9 +1,10 @@
+import { PageTitle } from "@/components/helpers";
 import React from "react";
 
 const UserPage = () => {
   return (
     <section className="section">
-      <div></div>
+      <PageTitle title="Users" desc="View all the signed up users." />
     </section>
   );
 };
