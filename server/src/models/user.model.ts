@@ -2,6 +2,7 @@ import { Schema, models, model, Model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { ROLES } from "../utils/constants";
 
 export interface IUser {
   email: string;
@@ -43,7 +44,7 @@ const UserSchema = new Schema<IUser>(
     address: String,
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: Object.values(ROLES),
       default: "user",
     },
     avatar: String,
