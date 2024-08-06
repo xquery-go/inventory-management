@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { User, IUser } from "../models/user.model";
-import { Role } from "../types/type";
+import { User } from "../models/user.model";
+import { IUser, Role } from "../types/type";
+import { throwError } from "../utils/helpers";
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
   user?: IUser;
 }
 
@@ -11,11 +12,11 @@ export const verifyAuth = (roles: Role[]) => {
   return async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const token =
-        req.cookies?.accessToken ||
+        req.cookies?.token ||
         req.header("Authorization")?.replace("Bearer ", "");
 
       if (!token) {
-        return next(new Error("Unauthorized Access"));
+        return next(throwError("Unauthorized Access", 401));
       }
 
       const payload = jwt.verify(
@@ -25,15 +26,15 @@ export const verifyAuth = (roles: Role[]) => {
 
       const user = await User.findById(payload?._id).select("-password");
 
-      if (!user) return next(new Error("Unauthorized Access"));
+      if (!user) return next(throwError("Unauthorized Access", 401));
       if (!roles.includes(user.role as Role))
-        return next(new Error("Unauthorized Access"));
+        return next(throwError("Unauthorized Access", 401));
 
       req.user = user;
       next();
     } catch (error) {
       console.log(error);
-      next(new Error("Authentication Error"));
+      next(throwError("Authentication Error", 401));
     }
   };
 };

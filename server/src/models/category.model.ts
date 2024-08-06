@@ -1,10 +1,5 @@
 import { Schema, models, model, Model } from "mongoose";
-
-interface ICategory {
-  name: string;
-  image: string;
-  parentCategory?: Schema.Types.ObjectId;
-}
+import { ICategory } from "../types/type";
 
 const CategorySchema = new Schema<ICategory>(
   {

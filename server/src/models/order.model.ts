@@ -1,33 +1,5 @@
 import { Schema, models, model, Model } from "mongoose";
-
-interface IOrderItem {
-  product: Schema.Types.ObjectId;
-  quantity: number;
-  price: number;
-}
-
-interface IAddress {
-  street: string;
-  city: string;
-  state: string;
-}
-
-interface IOrder {
-  orderItems: IOrderItem[];
-  totalAmount: number;
-  couponCode?: string;
-  discount?: number;
-  shippingAddress: IAddress;
-  billingAddress: IAddress;
-  paymentMethod: "cash_on_delivery" | "online";
-  customer: Schema.Types.ObjectId;
-  orderStatus: "pending" | "completed" | "cancelled";
-  paymentStatus: "pending" | "paid" | "failed";
-  trackingNumber?: string;
-  estimatedDeliveryDate?: Date;
-  actualDeliveryDate?: Date;
-  notes?: string;
-}
+import { IAddress, IOrder, IOrderItem } from "../types/type";
 
 const AddressSchema = new Schema<IAddress>({
   street: { type: String, required: true },

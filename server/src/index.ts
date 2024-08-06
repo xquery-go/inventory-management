@@ -5,7 +5,13 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
+import { errorMiddleware } from "./middlewares/error.middleware";
+import { connectDb } from "./config/dbConnection";
 // Routes imports
+import authRoute from "./routes/auth.route";
+// import categoryRoute from "./routes/category.route";
+// import orderRoute from "./routes/order.route";
+// import productRoute from "./routes/product.route";
 
 config();
 
@@ -32,15 +38,24 @@ app.get("/", (req, res) => {
   });
 });
 
-console.log("Hello")
-
 // Routes
+app.use("/api/v1/auth", authRoute);
+// app.use("/api/v1/product", productRoute);
+// app.use("/api/v1/category", categoryRoute);
+// app.use("/api/v1/order", orderRoute);
 
 // Middlewares
+app.use(errorMiddleware);
 
 // Listen To Server
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on: http://localhost:${PORT}`);
-});
+// Connect To database first then start the server
+connectDb()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on: http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log(`Database Connection Error: ${error}`);
+  });

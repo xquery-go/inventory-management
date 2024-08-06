@@ -3,18 +3,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ROLES } from "../utils/constants";
-
-export interface IUser {
-  email: string;
-  password: string;
-  phone: string;
-  address?: string;
-  name: string;
-  role: "user" | "admin";
-  avatar?: string;
-  hasNotifications: boolean;
-  isEmailVerified: boolean;
-}
+import { IUser } from "../types/type";
 
 const UserSchema = new Schema<IUser>(
   {
@@ -62,18 +51,20 @@ const UserSchema = new Schema<IUser>(
   }
 );
 
-UserSchema.pre("save", async function (next) {
+UserSchema.pre<IUser>("save", async function (next) {
   // Return if the password is not modified
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-UserSchema.methods.comparePassword = async function (password: string) {
+UserSchema.methods.comparePassword = async function (
+  password: string
+): Promise<boolean> {
   return await bcrypt.compare(password, this.password);
 };
 
-UserSchema.methods.generateAccessToken = async function () {
+UserSchema.methods.generateAccessToken = async function (): Promise<string> {
   return jwt.sign(
     {
       _id: this._id,
