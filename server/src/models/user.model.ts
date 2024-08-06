@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ROLES } from "../utils/constants";
 import { IUser } from "../types/type";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const UserSchema = new Schema<IUser>(
   {
@@ -78,6 +79,8 @@ UserSchema.methods.generateAccessToken = async function (): Promise<string> {
     }
   );
 };
+
+UserSchema.plugin(mongoosePaginate);
 
 export const User: Model<IUser> =
   models.User || model<IUser>("User", UserSchema);

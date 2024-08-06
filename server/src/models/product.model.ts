@@ -1,5 +1,6 @@
 import { Schema, models, model, Model } from "mongoose";
 import { IProduct } from "../types/type";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const ProductSchema = new Schema<IProduct>(
   {
@@ -33,6 +34,8 @@ const ProductSchema = new Schema<IProduct>(
     timestamps: true,
   }
 );
+
+ProductSchema.plugin(mongoosePaginate);
 
 export const Product: Model<IProduct> =
   models.Product || model<IProduct>("Product", ProductSchema);

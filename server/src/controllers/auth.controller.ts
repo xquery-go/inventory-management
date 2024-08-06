@@ -1,6 +1,6 @@
 import { CookieOptions, NextFunction, Request, Response } from "express";
 import { User } from "../models/user.model";
-import { throwError } from "../utils/helpers";
+import { getPaginatedData, throwError } from "../utils/helpers";
 import { AuthRequest } from "../middlewares/auth.middleware";
 
 export const registerUser = async (
@@ -116,16 +116,37 @@ export const logoutUser = async (
   }
 };
 
-export const controllerFn = async (
+export const getUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const page = +(req.query.page || 1);
+    const limit = +(req.query.limit || 10);
+    const search = req.query.search || "";
+    const filter: any = req.query.filter || "";
+    let sortDirection = 1;
+
+    if (filter.toLowerCase() === "ztoa") {
+      sortDirection = -1;
+    }
+
+    const { data, pagination } = await getPaginatedData({
+      model: User,
+      query: { name: { $regex: `^${search}`, $options: "i" } },
+      page,
+      limit,
+      sort: { name: sortDirection },
+    });
+
+    console.log(data);
+
     return res.status(201).json({
       success: true,
       message: "",
-      data: "",
+      data,
+      pagination,
     });
   } catch (error) {
     console.log(error);

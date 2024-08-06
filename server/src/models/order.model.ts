@@ -1,5 +1,6 @@
 import { Schema, models, model, Model } from "mongoose";
 import { IAddress, IOrder, IOrderItem } from "../types/type";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const AddressSchema = new Schema<IAddress>({
   street: { type: String, required: true },
@@ -62,6 +63,8 @@ const OrderSchema = new Schema<IOrder>(
     timestamps: true,
   }
 );
+
+OrderSchema.plugin(mongoosePaginate);
 
 export const Order: Model<IOrder> =
   models.Order || model<IOrder>("Order", OrderSchema);

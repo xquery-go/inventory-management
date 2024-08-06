@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, PaginateModel, Schema } from "mongoose";
 import { ROLES } from "../utils/constants";
 
 export type Role = (typeof ROLES)[keyof typeof ROLES];
@@ -57,6 +57,9 @@ export interface IOrder {
 
 export interface ICategory {
   name: string;
+  description?: string;
   image: string;
   parentCategory?: Schema.Types.ObjectId;
+  createdBy: Schema.Types.ObjectId;
+  slug: string;
 }
