@@ -3,10 +3,11 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-interface IUser {
+export interface IUser {
   email: string;
   password: string;
   phone: string;
+  address?: string;
   name: string;
   role: "user" | "admin";
   avatar?: string;
@@ -39,6 +40,7 @@ const UserSchema = new Schema<IUser>(
       required: [true, "Name is required"],
       trim: true,
     },
+    address: String,
     role: {
       type: String,
       enum: ["user", "admin"],
