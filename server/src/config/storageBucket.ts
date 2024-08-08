@@ -30,7 +30,7 @@ const bucket_region = process.env.BUCKET_REGION;
 const bucket_access_key = process.env.AWS_BUCKET_ACCESS_KEY_ID;
 const bucket_secret_key = process.env.AWS_BUCKET_SECRET_ACCESS_KEY;
 const cloudfront_distribution_id = process.env.CLOUDFRONT_DISTRIBUTION_ID;
-const cloudfare_url = process.env.CLOUDFRONT_URL;
+const cloudfront_url = process.env.CLOUDFRONT_URL;
 
 const s3Client = new S3Client({
   region: bucket_region!,
@@ -87,20 +87,26 @@ export const removeFile = async (filename: string) => {
     Bucket: bucket_name,
     Key: filename,
   });
-
   await s3Client.send(command);
 
   // Invalidate the cloudfront cache for the deleted image
+  await invalidateCloudFrontCache(filename);
+};
+
+const invalidateCloudFrontCache = async (filename: string) => {
   const invalidationCommand = new CreateInvalidationCommand({
     DistributionId: cloudfront_distribution_id,
     InvalidationBatch: {
-      CallerReference: filename,
+      CallerReference: Date.now().toString(),
       Paths: {
         Quantity: 1,
         Items: [`/${filename}`],
       },
     },
   });
-
   await cloudFront.send(invalidationCommand);
+};
+
+export const getImageUrl = (filename: string) => {
+  return `${cloudfront_url}/${filename}`;
 };

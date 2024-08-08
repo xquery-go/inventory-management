@@ -8,7 +8,7 @@ import {
   getProducts,
   getProductsByCategory,
   updateProduct,
-} from "../controllers/product.ontroller";
+} from "../controllers/product.controller";
 import { upload } from "../config/storageBucket";
 
 const router = Router();

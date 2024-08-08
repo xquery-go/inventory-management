@@ -18,15 +18,15 @@ export const getPaginatedData = async ({
   page = 1,
   limit = 10,
   query = {},
-  populate = "",
-  select = "-password -refreshToken -forgotPasswordToken -forgotPasswordTokenExpiry -verifyToken -verifyTokenExpiry",
+  populate,
+  select = "-password",
   sort = { createdAt: -1 },
 }: {
   model: any;
   page?: number;
   limit?: number;
   query?: any;
-  populate?: string;
+  populate?: any;
   select?: string;
   sort?: any;
 }) => {

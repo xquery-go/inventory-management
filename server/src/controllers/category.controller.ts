@@ -1,9 +1,10 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Response, Request } from "express";
 import { AuthRequest } from "../middlewares/auth.middleware";
 import { getPaginatedData, throwError } from "../utils/helpers";
 import { Category } from "../models/category.model";
 import mongoose from "mongoose";
-import { removeFile, uploadFile } from "../config/storageBucket";
+import { getImageUrl, removeFile, uploadFile } from "../config/storageBucket";
+import { ICategory } from "../types/type";
 
 export const createCategory = async (
   req: AuthRequest,
@@ -53,7 +54,7 @@ export const createCategory = async (
 };
 
 export const getCategories = async (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -81,10 +82,14 @@ export const getCategories = async (
       sort: { name: sortDirection },
     });
 
+    const dataWithImages = data.map((category: any) => {
+      return { ...category, imageUrl: getImageUrl(category.image) };
+    });
+
     return res.status(201).json({
       success: true,
       message: "",
-      data,
+      data: dataWithImages,
       pagination,
     });
   } catch (error) {
