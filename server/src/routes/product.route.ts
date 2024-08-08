@@ -15,13 +15,13 @@ const router = Router();
 
 router.post(
   "/",
-  upload.array("images"),
+  upload.array("images", 10),
   verifyAuth(Object.values([ROLES.ADMIN])),
   createProduct
 );
 router.put(
   "/:id",
-  upload.array("images"),
+  upload.array("images", 10),
   verifyAuth(Object.values([ROLES.ADMIN])),
   updateProduct
 );
