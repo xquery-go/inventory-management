@@ -31,6 +31,7 @@ export interface IOrderItem {
   product: Schema.Types.ObjectId;
   quantity: number;
   price: number;
+  itemTotal: number;
 }
 
 export interface IAddress {
@@ -48,7 +49,7 @@ export interface IOrder {
   billingAddress: IAddress;
   paymentMethod: "cash_on_delivery" | "online";
   customer: Schema.Types.ObjectId;
-  orderStatus: "pending" | "completed" | "cancelled";
+  orderStatus: "pending" | "processing" | "completed" | "cancelled";
   paymentStatus: "pending" | "paid" | "failed";
   trackingNumber?: string;
   estimatedDeliveryDate?: Date;
