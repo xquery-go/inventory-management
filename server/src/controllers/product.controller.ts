@@ -52,6 +52,7 @@ export const createProduct = async (
   }
 };
 
+// TODO: Need To Handle images in updateProduct
 export const updateProduct = async (
   req: AuthRequest,
   res: Response,

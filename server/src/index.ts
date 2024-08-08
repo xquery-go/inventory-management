@@ -11,7 +11,7 @@ import { connectDb } from "./config/dbConnection";
 import authRoute from "./routes/auth.route";
 import categoryRoute from "./routes/category.route";
 import productRoute from "./routes/product.route";
-// import orderRoute from "./routes/order.route";
+import orderRoute from "./routes/order.route";
 
 config();
 
@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/category", categoryRoute);
-// app.use("/api/v1/order", orderRoute);
+app.use("/api/v1/order", orderRoute);
 
 // Middlewares
 app.use(errorMiddleware);
