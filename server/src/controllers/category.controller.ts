@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { AuthRequest } from "../middlewares/auth.middleware";
-import { throwError } from "../utils/helpers";
+import { getPaginatedData, throwError } from "../utils/helpers";
 import { Category } from "../models/category.model";
 import mongoose from "mongoose";
+import { removeFile, uploadFile } from "../config/storageBucket";
 
 export const createCategory = async (
   req: AuthRequest,
@@ -16,13 +17,19 @@ export const createCategory = async (
     if (!name) return next(throwError("Category Name is required", 400));
     if (!slug) return next(throwError("Category Slug is required", 400));
 
+    // find parent category if any
     if (parentCategory) {
       const parent = await Category.findById(parentCategory);
       if (!parent) return next(throwError("Parent category not found", 404));
     }
 
+    // Upload image to S3
+    const { response, filename } = await uploadFile(req.file!);
+    if (!response) return next("Failed to upload image");
+
     const category = await Category.create({
       name,
+      image: filename,
       description,
       slug,
       parentCategory: parentCategory || null,
@@ -41,7 +48,7 @@ export const createCategory = async (
     });
   } catch (error) {
     console.log(error);
-    return next(throwError("An unexpected error occurred", 500));
+    return next(error);
   }
 };
 
@@ -51,14 +58,38 @@ export const getCategories = async (
   next: NextFunction
 ) => {
   try {
+    const page = +(req.query.page || 1);
+    const limit = +(req.query.limit || 10);
+    const search = req.query.search || "";
+    const filter: any = req.query.filter || "";
+    const parentId = req.query.parentId || null;
+    let sortDirection = 1;
+
+    if (filter.toLowerCase() === "ztoa") {
+      sortDirection = -1;
+    }
+
+    const query: any = { name: { $regex: `^${search}`, $options: "i" } };
+    if (parentId) query.parentCategory = parentId;
+    else query.parentCategory = null;
+
+    const { data, pagination } = await getPaginatedData({
+      model: Category,
+      query,
+      page,
+      limit,
+      sort: { name: sortDirection },
+    });
+
     return res.status(201).json({
       success: true,
       message: "",
-      data: "",
+      data,
+      pagination,
     });
   } catch (error) {
     console.log(error);
-    return next(throwError("An unexpected error occurred", 500));
+    return next(error);
   }
 };
 
@@ -67,10 +98,26 @@ export const updateCategory = async (
   res: Response,
   next: NextFunction
 ) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const { name, description, slug } = req.body;
     const { id } = req.params;
     const { parentCategory } = req.query;
+
+    const categoryToUpdate = await Category.findById(id);
+    if (!categoryToUpdate) return next(throwError("Category not found", 404));
+
+    let image;
+    if (req.file) {
+      const { filename, response } = await uploadFile(req.file!);
+      if (!response) return next(throwError("Failed to upload image", 500));
+      image = filename;
+
+      // Remove the old image
+      await removeFile(categoryToUpdate.image);
+    }
 
     const category = await Category.findByIdAndUpdate(
       id,
@@ -78,6 +125,7 @@ export const updateCategory = async (
         name,
         description,
         slug,
+        image,
         parentCategory: parentCategory || null,
       },
       { new: true }
@@ -85,14 +133,19 @@ export const updateCategory = async (
 
     if (!category) return next(throwError("Category not found", 404));
 
+    await session.commitTransaction();
+
     return res.status(201).json({
       success: true,
       message: "Category updated successfully",
       data: category,
     });
   } catch (error) {
+    await session.abortTransaction();
     console.log(error);
-    return next(throwError("An unexpected error occurred", 500));
+    return next(error);
+  } finally {
+    session.endSession();
   }
 };
 
@@ -117,20 +170,24 @@ export const deleteCategory = async (
       { parentCategory: id },
       { $unset: { parentCategory: 1 } }
     );
+
     // Delete the category itself
-    await Category.findByIdAndDelete(id);
+    const category = await Category.findByIdAndDelete(id);
+    if (!category) return next(throwError("Category not found", 404));
+
+    await removeFile(category.image);
 
     await session.commitTransaction();
 
     return res.status(201).json({
       success: true,
       message: "Category deleted successfully",
-      data: "",
+      data: category,
     });
   } catch (error) {
     await session.abortTransaction();
     console.log(error);
-    return next(throwError("An unexpected error occurred", 500));
+    return next(error);
   } finally {
     session.endSession();
   }

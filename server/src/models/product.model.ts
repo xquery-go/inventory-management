@@ -25,6 +25,12 @@ const ProductSchema = new Schema<IProduct>(
       type: Number,
       default: 0,
     },
+    rating: {
+      type: Number,
+      default: 0,
+      min: [0, "Rating must be at least 0"],
+      max: [5, "Rating must not exceed 5"],
+    },
     images: {
       type: [String],
       required: [true, "Product Images are required"],

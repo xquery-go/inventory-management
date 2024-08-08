@@ -46,7 +46,7 @@ export const registerUser = async (
     });
   } catch (error) {
     console.log(error);
-    return next(throwError("An unexpected error occurred", 500));
+    return next(error);
   }
 };
 
@@ -87,7 +87,7 @@ export const loginUser = async (
     });
   } catch (error) {
     console.log(error);
-    return next(throwError("An unexpected error occurred", 500));
+    return next(error);
   }
 };
 
@@ -112,7 +112,7 @@ export const logoutUser = async (
     });
   } catch (error) {
     console.log(error);
-    return next(throwError("An unexpected error occurred", 500));
+    return next(error);
   }
 };
 
@@ -140,8 +140,6 @@ export const getUsers = async (
       sort: { name: sortDirection },
     });
 
-    console.log(data);
-
     return res.status(201).json({
       success: true,
       message: "",
@@ -150,6 +148,6 @@ export const getUsers = async (
     });
   } catch (error) {
     console.log(error);
-    return next(throwError("An unexpected error occurred", 500));
+    return next(error);
   }
 };

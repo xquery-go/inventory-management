@@ -7,15 +7,22 @@ import {
   getCategories,
   updateCategory,
 } from "../controllers/category.controller";
+import { upload } from "../config/storageBucket";
 const router = Router();
 
 router.post(
-  "/create",
+  "/",
+  upload.single("image"),
   verifyAuth(Object.values([ROLES.ADMIN])),
   createCategory
 );
 router.get("/", getCategories);
-router.put("/:id", verifyAuth(Object.values(ROLES)), updateCategory);
-router.delete("/:id", verifyAuth(Object.values(ROLES)), deleteCategory);
+router.put(
+  "/:id",
+  upload.single("image"),
+  verifyAuth(Object.values([ROLES.ADMIN])),
+  updateCategory
+);
+router.delete("/:id", verifyAuth(Object.values([ROLES.ADMIN])), deleteCategory);
 
 export default router;

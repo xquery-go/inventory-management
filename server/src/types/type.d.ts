@@ -24,6 +24,7 @@ export interface IProduct {
   stock: number;
   category: Schema.Types.ObjectId;
   images: string[];
+  rating: number;
 }
 
 export interface IOrderItem {

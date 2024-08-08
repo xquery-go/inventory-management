@@ -10,6 +10,12 @@ const CategorySchema = new Schema<ICategory>(
       trim: true,
     },
     description: String,
+    slug: {
+      type: String,
+      required: [true, "Category Slug is required"],
+      unique: true,
+      trim: true,
+    },
     image: {
       type: String,
       required: [true, "Category Image is required"],

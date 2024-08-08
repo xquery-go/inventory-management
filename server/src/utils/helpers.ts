@@ -1,13 +1,17 @@
 import { CustomError } from "../middlewares/error.middleware";
+import crypto from "crypto";
 
 export const throwError = (
-  message: string,
+  message: string | any,
   statusCode?: number
 ): CustomError => {
   const error = new Error(message) as CustomError;
   error.statusCode = statusCode || 500;
   return error;
 };
+
+export const getRandomFileName = (bytes = 32) =>
+  crypto.randomBytes(bytes).toString("hex");
 
 export const getPaginatedData = async ({
   model,
