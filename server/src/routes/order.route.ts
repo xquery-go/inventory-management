@@ -4,7 +4,6 @@ import { ROLES } from "../utils/constants";
 import {
   addOrder,
   changeOrderStatus,
-  createPaymentLink,
   getAllOrders,
   getOrderDetails,
 } from "../controllers/order.controller";
@@ -23,6 +22,22 @@ router.patch(
 );
 // Anyone can see order details
 router.get("/:id", getOrderDetails);
-router.post("/payment", createPaymentLink);
 
 export default router;
+
+// export const controllerFn = async (
+//   req: AuthRequest,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     return res.status(200).json({
+//       success: true,
+//       message: "",
+//       data: "",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return next(error);
+//   }
+// };

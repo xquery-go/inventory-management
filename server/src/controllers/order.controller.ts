@@ -222,37 +222,3 @@ export const getOrderDetails = async (
     return next(error);
   }
 };
-
-export const createPaymentLink = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    return res.status(200).json({
-      success: true,
-      message: "",
-      data: "",
-    });
-  } catch (error) {
-    console.log(error);
-    return next(error);
-  }
-};
-
-export const controllerFn = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    return res.status(200).json({
-      success: true,
-      message: "",
-      data: "",
-    });
-  } catch (error) {
-    console.log(error);
-    return next(error);
-  }
-};

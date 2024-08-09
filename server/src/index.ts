@@ -12,6 +12,7 @@ import authRoute from "./routes/auth.route";
 import categoryRoute from "./routes/category.route";
 import productRoute from "./routes/product.route";
 import orderRoute from "./routes/order.route";
+import checkoutRoute from "./routes/checkout.route";
 
 config();
 
@@ -43,6 +44,7 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/order", orderRoute);
+app.use("/api/v1/checkout", checkoutRoute);
 
 // Middlewares
 app.use(errorMiddleware);

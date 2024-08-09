@@ -55,6 +55,7 @@ export interface IOrder {
   estimatedDeliveryDate?: Date;
   actualDeliveryDate?: Date;
   notes?: string;
+  stripeSessionId?: string;
 }
 
 export interface ICategory {
