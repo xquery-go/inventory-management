@@ -4,6 +4,8 @@ import { Header, Sidebar } from "@/components/shared";
 import { Poppins, Roboto } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/store/ThemeProvider";
+import { AuthProvider } from "@/store/AuthProvider";
+import ReactQueryProvider from "@/store/ReactQueryProvider";
 
 const poppins = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
@@ -35,21 +37,25 @@ export default function RootLayout({
       <body
         className={`${poppins.className} ${roboto.variable} flex bg-bg dark:bg-darkBg `}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Toaster richColors position="top-right" />
-          <aside className="lg:w-full min-w-[60px] w-fit lg:max-w-[300px] sticky top-0 h-screen overflow-y-auto border border-r dark:border-neutral-800">
-            <Sidebar />
-          </aside>
-          <main className="w-full overflow-x-hidden">
-            <Header />
-            {children}
-          </main>
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Toaster richColors position="top-right" />
+              <aside className="lg:w-full min-w-[60px] w-fit lg:max-w-[300px] sticky top-0 h-screen overflow-y-auto border border-r dark:border-neutral-800">
+                <Sidebar />
+              </aside>
+              <main className="w-full overflow-x-hidden">
+                <Header />
+                {children}
+              </main>
+            </ThemeProvider>
+          </AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

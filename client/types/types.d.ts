@@ -1,0 +1,92 @@
+export interface IUser {
+  email: string;
+  name: string;
+  phone: string;
+  role: string;
+  hasNotifications: boolean;
+  isEmailVerified: boolean;
+  address?: string;
+  avatar?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface IProduct {
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  category: {
+    _id: string;
+    name: string;
+  };
+  images: string[];
+  rating: number;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface ICategory {
+  name: string;
+  description?: string;
+  image: string;
+  imageUrl: string;
+  parentCategory?: string;
+  createdBy: string;
+  slug: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface IOrderItem {
+  product: {
+    _id: string;
+    name: string;
+    coverImage: string;
+  };
+  quantity: number;
+  price: number;
+  itemTotal: number;
+}
+
+export interface IAddress {
+  street: string;
+  city: string;
+  state: string;
+}
+
+export interface IOrder {
+  orderItems: IOrderItem[];
+  totalAmount: number;
+  couponCode?: string;
+  discount?: number;
+  shippingAddress: IAddress;
+  billingAddress: IAddress;
+  paymentMethod: "cash_on_delivery" | "online";
+  customer: {
+    _id: string;
+    name: string;
+    email: string;
+    phone: string;
+  };
+  orderStatus: "pending" | "processing" | "completed" | "cancelled";
+  paymentStatus: "pending" | "paid" | "failed";
+  trackingNumber: string;
+  estimatedDeliveryDate?: Date;
+  actualDeliveryDate?: Date;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface IOrderMin {
+  _id: string;
+  totalAmount: number;
+  customer: {
+    _id: string;
+    name: string;
+  };
+  orderStatus: string;
+  trackingNumber: string;
+  paymentStatus: string;
+  createdAt: string;
+}

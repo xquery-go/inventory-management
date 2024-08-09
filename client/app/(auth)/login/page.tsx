@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "@/API/auth.api";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-// import { useAuth } from "@/store/AuthProvider";
+import { useAuth } from "@/store/AuthProvider";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import Link from "next/link";
@@ -15,6 +15,7 @@ import { PasswordInput } from "@/components/ui/PasswordInput";
 
 const LoginPage = () => {
   const router = useRouter();
+  const { setUser } = useAuth();
 
   const { mutateAsync } = useMutation({
     mutationFn: loginUser,
@@ -29,14 +30,13 @@ const LoginPage = () => {
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof loginSchema>> = async (data) => {
-    // const { response, success } = await mutateAsync(data);
-    // if (success) {
-    //   // setUser(response.user);
-    //   localStorage.setItem("token", response.accessToken);
-    //   toast.success("Login successfull");
-    //   router.push("/");
-    // } else return toast.error(response as string);
-    console.log(data);
+    const { response, success } = await mutateAsync(data);
+    if (success) {
+      setUser(response.user);
+      localStorage.setItem("token", response.token);
+      toast.success("Login successfull");
+      router.push("/");
+    } else return toast.error(response as string);
   };
 
   return (
@@ -92,7 +92,7 @@ const LoginPage = () => {
             </label>
           </div>
           <Link
-            href="/forgot-password"
+            href="#"
             className="text-primaryCol underline font-roboto text-sm"
           >
             Forgot Password

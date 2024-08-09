@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/store/ThemeProvider";
 import Image from "next/image";
 import { Codepen } from "lucide-react";
 import ReactQueryProvider from "@/store/ReactQueryProvider";
+import { AuthProvider } from "@/store/AuthProvider";
 
 const poppins = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
@@ -33,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${poppins.className} ${roboto.variable} flex bg-bg dark:bg-darkBg `}
       >
@@ -44,24 +45,26 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ReactQueryProvider>
-            <Toaster richColors position="top-right" />
-            <main className="grid md:grid-cols-2 h-screen w-screen">
-              <div className="bg-gray-200 max-md:hidden min-h-screen">
-                <Image
-                  src="/images/auth-image.jpg"
-                  alt="Full size image"
-                  width={500}
-                  height={500}
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-              <div className="flex items-center justify-center relative bg-bg dark:bg-darkBg w-full h-full ">
-                <div className="absolute md:top-10 md:right-10 top-5 right-5">
-                  <Codepen className="size-10 text-text dark:text-darkText" />
+            <AuthProvider>
+              <Toaster richColors position="top-right" />
+              <main className="grid md:grid-cols-2 h-screen w-screen">
+                <div className="bg-gray-200 max-md:hidden min-h-screen">
+                  <Image
+                    src="/images/auth-image.jpg"
+                    alt="Full size image"
+                    width={500}
+                    height={500}
+                    className="w-full h-full object-cover object-center"
+                  />
                 </div>
-                {children}
-              </div>
-            </main>
+                <div className="flex items-center justify-center relative bg-bg dark:bg-darkBg w-full h-full ">
+                  <div className="absolute md:top-10 md:right-10 top-5 right-5">
+                    <Codepen className="size-10 text-text dark:text-darkText" />
+                  </div>
+                  {children}
+                </div>
+              </main>
+            </AuthProvider>
           </ReactQueryProvider>
         </ThemeProvider>
       </body>

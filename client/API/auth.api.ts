@@ -30,3 +30,39 @@ export const loginUser = async ({
     };
   }
 };
+
+export const getCurrentUser = async () => {
+  try {
+    const { data } = await api.get("/auth/current-user");
+
+    return {
+      success: true,
+      response: data.data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      response: error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const { data } = await api.post(
+      "/auth/logout",
+      {},
+      { withCredentials: true }
+    );
+
+    return {
+      success: true,
+      response: data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      response: error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};
