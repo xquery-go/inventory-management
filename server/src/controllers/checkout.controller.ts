@@ -123,7 +123,7 @@ export const handleStripeWebhook = async (req: Request, res: Response) => {
       // 1. Save it in the metadata when creating the session
       // 2. Save the session id in the order and then find the order by session id
       // Update the order status
-      //   1st way
+      // 1st way
       const orderId = session.metadata?.orderId;
       if (session.payment_status === "paid" && orderId) {
         await Order.findByIdAndUpdate(orderId, {
@@ -131,7 +131,7 @@ export const handleStripeWebhook = async (req: Request, res: Response) => {
           orderStatus: "Processing",
         });
       }
-      //   2nd way
+      // //  2nd way
       //   const order = await Order.findOne({ stripeSessionId: session.id });
       //   if (order) {
       //     order.paymentStatus = "paid";

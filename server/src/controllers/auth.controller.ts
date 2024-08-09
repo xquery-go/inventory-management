@@ -116,6 +116,25 @@ export const logoutUser = async (
   }
 };
 
+export const getCurrentUser = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) return next(throwError("Unauthorized Access", 401));
+
+    return res.status(200).json({
+      success: true,
+      message: "Current User",
+      data: req.user,
+    });
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+};
+
 export const getUsers = async (
   req: Request,
   res: Response,
