@@ -51,7 +51,7 @@ export interface IOrder {
   customer: Schema.Types.ObjectId;
   orderStatus: "pending" | "processing" | "completed" | "cancelled";
   paymentStatus: "pending" | "paid" | "failed";
-  trackingNumber?: string;
+  trackingNumber: string;
   estimatedDeliveryDate?: Date;
   actualDeliveryDate?: Date;
   notes?: string;

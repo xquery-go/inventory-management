@@ -1,5 +1,6 @@
 import { CustomError } from "../middlewares/error.middleware";
 import crypto from "crypto";
+import { v4 as uuidv4 } from "uuid";
 
 export const throwError = (
   message: string | any,
@@ -12,6 +13,13 @@ export const throwError = (
 
 export const getRandomFileName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
+
+export const generateTrackingNumber = (): string => {
+  const prefix = "TRK";
+  const timestamp = Date.now().toString(36);
+  const uniqueId = uuidv4().split("-")[0];
+  return `${prefix}-${timestamp}-${uniqueId}`.toUpperCase();
+};
 
 export const getPaginatedData = async ({
   model,

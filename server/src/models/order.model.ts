@@ -55,7 +55,12 @@ const OrderSchema = new Schema<IOrder>(
       enum: ["pending", "paid", "failed"],
       default: "pending",
     },
-    trackingNumber: String,
+    trackingNumber: {
+      type: String,
+      unique: true,
+      required: [true, "Tracking number is required"],
+      index: true,
+    },
     estimatedDeliveryDate: Date,
     actualDeliveryDate: Date,
     notes: String,
