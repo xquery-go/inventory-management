@@ -1,5 +1,6 @@
 import {
   Archive,
+  Blocks,
   LayoutDashboard,
   ListOrdered,
   NotebookPen,
@@ -18,11 +19,11 @@ export const navLinks = [
     path: "/orders",
     icon: <ListOrdered className="text-text dark:text-darkText" />,
   },
-  // {
-  //   name: "Inventory",
-  //   path: "/inventory",
-  //   icon: <NotebookPen className="text-text dark:text-darkText" />,
-  // },
+  {
+    name: "Categories",
+    path: "/categories",
+    icon: <Blocks className="text-text dark:text-darkText" />,
+  },
   {
     name: "Products",
     path: "/products",
