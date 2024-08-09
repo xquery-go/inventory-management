@@ -72,6 +72,7 @@ export const CategoryForm = () => {
       reset();
       setFile(null);
       setPreview("");
+      setOpen(false);
     } else return toast.error(response as string);
   };
 
@@ -122,7 +123,7 @@ export const CategoryForm = () => {
               type="text"
               name="name"
               id="name"
-              placeholder="Enter category name"
+              placeholder="Enter category name*"
               register={register}
               isError={errors.name || false}
               errorMessage={errors.name?.message}
@@ -140,7 +141,7 @@ export const CategoryForm = () => {
               type="text"
               name="slug"
               id="slug"
-              placeholder="Enter category slug"
+              placeholder="Enter category slug*"
               register={register}
               isError={errors.slug || false}
               errorMessage={errors.slug?.message}

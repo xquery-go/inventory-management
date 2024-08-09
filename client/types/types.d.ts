@@ -1,4 +1,5 @@
 export interface IUser {
+  _id: string;
   email: string;
   name: string;
   phone: string;
@@ -12,6 +13,7 @@ export interface IUser {
 }
 
 export interface IProduct {
+  _id: string;
   name: string;
   description: string;
   price: number;
@@ -27,6 +29,7 @@ export interface IProduct {
 }
 
 export interface ICategory {
+  _id: string;
   name: string;
   description?: string;
   image: string;
@@ -56,6 +59,7 @@ export interface IAddress {
 }
 
 export interface IOrder {
+  _id: string;
   orderItems: IOrderItem[];
   totalAmount: number;
   couponCode?: string;
