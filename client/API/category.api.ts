@@ -76,7 +76,7 @@ export const getAllCategories = async ({
 
     return {
       success: true,
-      response: data.data,
+      response: data,
     };
   } catch (error: any) {
     return {

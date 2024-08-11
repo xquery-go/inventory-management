@@ -1,7 +1,7 @@
 "use client";
 import { getAllCategories } from "@/API/category.api";
 import { CategoryForm } from "@/components/forms";
-import { Filter, Loader, PageTitle } from "@/components/helpers";
+import { Filter, Loader, PageTitle, Pagination } from "@/components/helpers";
 import { CategoryCard } from "@/components/helpers/CategoryCard";
 import { ICategory } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
@@ -47,8 +47,8 @@ const CategoriesPage = ({ searchParams }: { searchParams: SearchParams }) => {
         </div>
       ) : (
         <div className="my-8 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-5">
-          {data && data.success && data.response.length > 0 ? (
-            data.response.map((category: ICategory) => (
+          {data && data.success && data.response.data.length > 0 ? (
+            data.response.data.map((category: ICategory) => (
               <CategoryCard key={category._id} {...category} />
             ))
           ) : (
@@ -58,6 +58,7 @@ const CategoriesPage = ({ searchParams }: { searchParams: SearchParams }) => {
           )}
         </div>
       )}
+      {data && data.success && <Pagination data={data.response.pagination} />}
     </section>
   );
 };
