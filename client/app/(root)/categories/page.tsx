@@ -19,10 +19,10 @@ const CategoriesPage = ({ searchParams }: { searchParams: SearchParams }) => {
     queryKey: ["categories", page, search, filter, limit],
     queryFn: () =>
       getAllCategories({
-        limit: 10,
-        page: 1,
-        search: "",
-        filter: "",
+        limit,
+        page,
+        search,
+        filter,
       }),
   });
 
@@ -38,7 +38,7 @@ const CategoriesPage = ({ searchParams }: { searchParams: SearchParams }) => {
         <div className="mb-2 bg-neutral-100 dark:bg-neutral-900 rounded-lg py-3 px-5 w-full flex items-center justify-end gap-x-2">
           <CategoryForm />
 
-          <Filter />
+          <Filter isCategories />
         </div>
       </div>
       {isLoading ? (
