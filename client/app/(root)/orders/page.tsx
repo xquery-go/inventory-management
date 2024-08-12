@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ordersTableHeaders } from "@/lib/data";
 import { useQuery } from "@tanstack/react-query";
 import { Download } from "lucide-react";
+import { Suspense } from "react";
 
 interface SearchParams {
   search: string;
@@ -40,7 +41,9 @@ const OrdersPage = ({ searchParams }: { searchParams: SearchParams }) => {
             <Download className="size-4" />
             Export
           </Button>
-          <Filter isOrders />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Filter isOrders />
+          </Suspense>
         </div>
         <DataTable
           headers={ordersTableHeaders}

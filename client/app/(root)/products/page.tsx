@@ -7,6 +7,7 @@ import { productTableHeaders } from "@/lib/data";
 import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 interface SearchParams {
   search: string;
@@ -47,8 +48,9 @@ const ProductsPage = ({ searchParams }: { searchParams: SearchParams }) => {
               Add Product
             </Button>
           </Link>
-
-          <Filter />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Filter />
+          </Suspense>
         </div>
         <DataTable
           headers={productTableHeaders}

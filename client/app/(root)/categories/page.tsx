@@ -6,6 +6,7 @@ import { CategoryCard } from "@/components/helpers/CategoryCard";
 import { CategorySkeleton } from "@/components/skeletons";
 import { ICategory } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 interface SearchParams {
   search: string;
@@ -38,8 +39,9 @@ const CategoriesPage = ({ searchParams }: { searchParams: SearchParams }) => {
       <div className="mt-8">
         <div className="mb-2 bg-neutral-100 dark:bg-neutral-900 rounded-lg py-3 px-5 w-full flex items-center justify-end gap-x-2">
           <CategoryForm />
-
-          <Filter isCategories />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Filter isCategories />
+          </Suspense>
         </div>
       </div>
       <div className="my-8 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-5">

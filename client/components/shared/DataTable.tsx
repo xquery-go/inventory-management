@@ -18,7 +18,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { ChangeOrderStatus, ConfirmationDialog, Pagination } from "../helpers";
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { IOrderMin, IPagination, IProduct, IUser } from "@/types/types";
 import { TableSkeleton } from "../skeletons";
 import { formatDate, formatDateToTime } from "@/lib/helpers";
@@ -260,7 +260,11 @@ export const DataTable = ({
           </TableBody>
         </Table>
       </div>
-      {pagination && <Pagination data={pagination} />}
+      {pagination && (
+        <Suspense fallback={<p>Loading...</p>}>
+          <Pagination data={pagination} />
+        </Suspense>
+      )}
       <ConfirmationDialog
         open={open}
         setOpen={setOpen}
