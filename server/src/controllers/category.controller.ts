@@ -4,7 +4,6 @@ import { getPaginatedData, throwError } from "../utils/helpers";
 import { Category } from "../models/category.model";
 import mongoose from "mongoose";
 import { getImageUrl, removeFile, uploadFile } from "../config/storageBucket";
-import { ICategory } from "../types/type";
 
 export const createCategory = async (
   req: AuthRequest,

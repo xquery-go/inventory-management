@@ -135,38 +135,3 @@ export const getCurrentUser = async (
   }
 };
 
-export const getUsers = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const page = +(req.query.page || 1);
-    const limit = +(req.query.limit || 10);
-    const search = req.query.search || "";
-    const filter: any = req.query.filter || "";
-    let sortDirection = 1;
-
-    if (filter.toLowerCase() === "ztoa") {
-      sortDirection = -1;
-    }
-
-    const { data, pagination } = await getPaginatedData({
-      model: User,
-      query: { name: { $regex: `^${search}`, $options: "i" } },
-      page,
-      limit,
-      sort: { name: sortDirection },
-    });
-
-    return res.status(201).json({
-      success: true,
-      message: "",
-      data,
-      pagination,
-    });
-  } catch (error) {
-    console.log(error);
-    return next(error);
-  }
-};

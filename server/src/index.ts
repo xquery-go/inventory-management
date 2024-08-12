@@ -9,6 +9,7 @@ import { errorMiddleware } from "./middlewares/error.middleware";
 import { connectDb } from "./config/dbConnection";
 // Routes imports
 import authRoute from "./routes/auth.route";
+import userRoute from "./routes/user.route";
 import categoryRoute from "./routes/category.route";
 import productRoute from "./routes/product.route";
 import orderRoute from "./routes/order.route";
@@ -49,6 +50,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/users", userRoute);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/order", orderRoute);
