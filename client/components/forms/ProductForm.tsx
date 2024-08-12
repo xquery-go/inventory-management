@@ -5,13 +5,14 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import Image from "next/image";
 import { convertImage } from "@/lib/helpers";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { FloatingInput } from "../ui/FloatingInput";
 import { productSchema } from "@/validations/product.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import { CategorySelect } from "../helpers";
 
 interface FileInfo {
   file: File;
@@ -109,63 +110,48 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
           </div>
         </div>
 
-        <div className="relative">
-          <FloatingInput
-            placeholder="Product Title"
-            type="text"
-            name="title"
-            register={register}
-          />
-          {errors.title && (
-            <span className="mt-1 absolute text-red-500 text-[12px]">
-              {errors.title.message}
-            </span>
-          )}
-        </div>
-        <div className="relative">
-          <Textarea
-            placeholder="Product Description"
-            name="description"
-            register={register}
-            className="resize-none"
-          />
-          {errors.description && (
-            <span className="mt-1 absolute text-red-500 text-[12px]">
-              {errors.description.message}
-            </span>
-          )}
-        </div>
-        <div className="relative">
-          <FloatingInput
-            placeholder="Price"
-            type="number"
-            inputMode="numeric"
-            name="price"
-            register={register}
-            min={0}
-          />
-          {errors.price && (
-            <span className="mt-1 absolute text-red-500 text-[12px]">
-              {errors.price.message}
-            </span>
-          )}
-        </div>
+        <FloatingInput
+          placeholder="Product Title"
+          type="text"
+          name="title"
+          register={register}
+          isError={errors.title || false}
+          errorMessage={errors.title?.message}
+        />
 
-        <div className="relative">
-          <FloatingInput
-            placeholder="Quantity"
-            type="number"
-            inputMode="numeric"
-            name="quantity"
-            register={register}
-            min={0}
-          />
-          {errors.quantity && (
-            <span className="mt-1 absolute text-red-500 text-[12px]">
-              {errors.quantity.message}
-            </span>
-          )}
+        <div>
+          <CategorySelect />
         </div>
+        <Textarea
+          placeholder="Product Description"
+          name="description"
+          register={register}
+          className="resize-none"
+          isError={errors.description || false}
+          errorMessage={errors.description?.message}
+        />
+
+        <FloatingInput
+          placeholder="Price"
+          type="number"
+          inputMode="numeric"
+          name="price"
+          register={register}
+          min={0}
+          isError={errors.price || false}
+          errorMessage={errors.price?.message}
+        />
+
+        <FloatingInput
+          placeholder="Quantity"
+          type="number"
+          inputMode="numeric"
+          name="quantity"
+          register={register}
+          min={0}
+          isError={errors.quantity || false}
+          errorMessage={errors.quantity?.message}
+        />
         <Button
           className="disabled:opacity-50 mt-2 bg-primaryCol hover:bg-primaryCol/90 text-darkText"
           type="submit"

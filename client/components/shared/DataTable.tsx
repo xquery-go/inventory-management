@@ -102,7 +102,7 @@ export const DataTable = ({
               </>
             ) : (
               <>
-                {isProduct && data.length > 0
+                {isProduct && data && data.length > 0
                   ? data.map((product: IProduct, idx: number) => (
                       <TableRow
                         className="dark:hover:bg-neutral-900 dark:border-neutral-800 overflow-x-hidden"
@@ -174,7 +174,7 @@ export const DataTable = ({
                       </TableRow>
                     )}
 
-                {isOrders && data.length > 0
+                {isOrders && data && data.length > 0
                   ? data.map((order: IOrderMin, idx: number) => (
                       <TableRow
                         className="dark:hover:bg-neutral-900 dark:border-neutral-800 overflow-x-hidden"
@@ -221,7 +221,7 @@ export const DataTable = ({
                       </TableRow>
                     )}
 
-                {isUsers && data.length > 0
+                {isUsers && data && data.length > 0
                   ? data.map((user: IUser, idx: number) => (
                       <TableRow
                         className="dark:hover:bg-neutral-900 dark:border-neutral-800 overflow-x-hidden"

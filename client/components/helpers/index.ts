@@ -1,3 +1,4 @@
+import { CategorySelect } from "./CategorySelect";
 import { ChangeOrderStatus } from "./ChangeOrderStatus";
 import { Filter } from "./Filter";
 import { ConfirmationDialog } from "./ConfirmationDialog";
@@ -18,4 +19,5 @@ export {
   ConfirmationDialog,
   Filter,
   ChangeOrderStatus,
+  CategorySelect,
 };

@@ -93,3 +93,19 @@ export const getAllCategories = async ({
     };
   }
 };
+
+export const getCategoryNames = async () => {
+  try {
+    const { data } = await api.get(`/category/names`);
+
+    return {
+      success: true,
+      response: data.data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      response: error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};
