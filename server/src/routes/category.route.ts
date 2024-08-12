@@ -5,6 +5,7 @@ import {
   createCategory,
   deleteCategory,
   getCategories,
+  getCategoryNames,
   updateCategory,
 } from "../controllers/category.controller";
 import { upload } from "../config/storageBucket";
@@ -17,6 +18,11 @@ router.post(
   createCategory
 );
 router.get("/", getCategories);
+router.get(
+  "/names",
+  verifyAuth(Object.values([ROLES.ADMIN])),
+  getCategoryNames
+);
 router.put(
   "/:id",
   upload.single("image"),

@@ -196,3 +196,24 @@ export const deleteCategory = async (
     session.endSession();
   }
 };
+
+export const getCategoryNames = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) return next(throwError("Unauthorized Access", 401));
+
+    const categories = await Category.find({}, "_id name");
+    if (!categories) return next(throwError("Categories not found", 404));
+    return res.status(200).json({
+      success: true,
+      message: "Categories retrieved successfully",
+      data: categories,
+    });
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+};
