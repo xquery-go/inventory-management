@@ -2,22 +2,9 @@
 import { ChevronLeft, ChevronRight, Ellipsis } from "lucide-react";
 import { Button } from "../ui/button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { IPagination } from "@/types/types";
 
-interface Props {
-  data: {
-    totalItems: number;
-    perPage: number;
-    totalPages: number;
-    currentPage: number;
-    pagingCounter: number;
-    hasPrevPage: boolean;
-    hasNextPage: boolean;
-    prevPage: number | null;
-    nextPage: number | null;
-  };
-}
-
-export const Pagination = ({ data }: Props) => {
+export const Pagination = ({ data }: { data: IPagination }) => {
   const { hasNextPage, hasPrevPage, currentPage, totalPages } = data;
 
   const pathname = usePathname();

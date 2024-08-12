@@ -23,6 +23,7 @@ export interface IProduct {
     name: string;
   };
   images: string[];
+  imageUrls: string[];
   rating: number;
   createdAt: string;
   updatedAt?: string;
@@ -93,4 +94,16 @@ export interface IOrderMin {
   trackingNumber: string;
   paymentStatus: string;
   createdAt: string;
+}
+
+export interface IPagination {
+  totalItems: number;
+  perPage: number;
+  totalPages: number;
+  currentPage: number;
+  pagingCounter: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  prevPage: number | null;
+  nextPage: number | null;
 }

@@ -1,11 +1,32 @@
+"use client";
+import { getAllProducts } from "@/API/product.api";
 import { Filter, PageTitle } from "@/components/helpers";
 import { DataTable } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { productTableHeaders } from "@/lib/data";
+import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
-const ProductsPage = () => {
+interface SearchParams {
+  search: string;
+  filter: string;
+  limit: number;
+  page: number;
+}
+
+const ProductsPage = ({ searchParams }: { searchParams: SearchParams }) => {
+  const { filter, limit, page, search } = searchParams;
+  const { data, isLoading } = useQuery({
+    queryKey: ["categories", page, search, filter, limit],
+    queryFn: () =>
+      getAllProducts({
+        limit,
+        page,
+        search,
+        filter,
+      }),
+  });
   return (
     <section className="section">
       <div className="flex sm:items-center justify-between max-sm:flex-col w-full gap-x-5 gap-y-2">
@@ -29,7 +50,13 @@ const ProductsPage = () => {
 
           <Filter />
         </div>
-        <DataTable headers={productTableHeaders} isProduct />
+        <DataTable
+          headers={productTableHeaders}
+          isProduct
+          data={data?.response.data}
+          isLoading={isLoading}
+          pagination={data?.response.pagination}
+        />
       </div>
     </section>
   );
