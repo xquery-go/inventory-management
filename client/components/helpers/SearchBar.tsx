@@ -1,18 +1,45 @@
 "use client";
 import { Search } from "lucide-react";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useDebounce from "@/hooks/useDebouncer";
 
 export const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   useOutsideClick(ref, () => {
     setShowSearch(false);
     setSearch("");
   });
+
+  const query = useDebounce(search, 700);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+      params.delete("page");
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  useEffect(() => {
+    const currentQuery = searchParams.get("search") || "";
+
+    // Reset page to 1 only when the search query changes
+    if (query !== currentQuery) {
+      router.push(`${pathname}?${createQueryString("search", query)}`);
+    }
+  }, [query, router, pathname, searchParams, createQueryString]);
 
   return (
     <>

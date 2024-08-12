@@ -189,7 +189,7 @@ export const DataTable = ({
           </TableBody>
         </Table>
       </div>
-      <Pagination />
+      {/* <Pagination /> */}
       <ConfirmationDialog open={open} setOpen={setOpen} alertType={alertType} />
     </div>
   );

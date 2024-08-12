@@ -18,15 +18,7 @@ interface Props {
 }
 
 export const Pagination = ({ data }: Props) => {
-  const {
-    hasNextPage,
-    hasPrevPage,
-    currentPage,
-    nextPage,
-    prevPage,
-    totalPages,
-    totalItems,
-  } = data;
+  const { hasNextPage, hasPrevPage, currentPage, totalPages } = data;
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
