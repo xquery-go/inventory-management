@@ -12,12 +12,15 @@ export const ConfirmationDialog = ({
   open,
   setOpen,
   alertType,
+  onAccept,
 }: {
   open: boolean;
   setOpen: any;
   alertType: string;
+  onAccept: () => void;
 }) => {
   const handleAction = () => {
+    onAccept();
     setOpen(false);
   };
 
@@ -27,8 +30,9 @@ export const ConfirmationDialog = ({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            {alertType === "delete"
+              ? "This action cannot be undone. This will permanently delete your account and remove your data from our servers"
+              : "Are you sure you want to confirm this action? This will cancel the order and notify the user."}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

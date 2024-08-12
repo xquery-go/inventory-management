@@ -13,15 +13,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { products, ordersData, usersData } from "@/lib/data";
 import { EllipsisVertical } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { ConfirmationDialog, Loader, Pagination } from "../helpers";
+import { ChangeOrderStatus, ConfirmationDialog, Pagination } from "../helpers";
 import Link from "next/link";
 import { useState } from "react";
-import { IPagination, IProduct, IUser } from "@/types/types";
+import { IOrderMin, IPagination, IProduct, IUser } from "@/types/types";
 import { TableSkeleton } from "../skeletons";
+import { formatDate, formatDateToTime } from "@/lib/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { changeOrderStatus } from "@/API/order.api";
+import { toast } from "sonner";
 
 export const DataTable = ({
   headers,
@@ -149,63 +152,52 @@ export const DataTable = ({
                       </TableRow>
                     )}
 
-                {isOrders &&
-                  ordersData.map((order, idx) => (
-                    <TableRow
-                      className="dark:hover:bg-neutral-900 dark:border-neutral-800 overflow-x-hidden"
-                      key={idx}
-                    >
-                      <TableCell>{order.orderId}</TableCell>
-                      <TableCell>{order.customer}</TableCell>
-                      <TableCell>{order.date}</TableCell>
-                      <TableCell>{order.amount}</TableCell>
-                      <TableCell
-                        className={`font-medium ${
-                          order.status === "Pending"
-                            ? "text-blue-500"
-                            : order.status === "Delivered"
-                            ? "text-green-500"
-                            : order.status === "Cancelled"
-                            ? "text-red-500"
-                            : ""
-                        }`}
+                {isOrders && data.length > 0
+                  ? data.map((order: IOrderMin, idx: number) => (
+                      <TableRow
+                        className="dark:hover:bg-neutral-900 dark:border-neutral-800 overflow-x-hidden"
+                        key={idx}
                       >
-                        {order.status}
-                      </TableCell>
-                      <TableCell>
-                        {" "}
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button size="icon" variant="outline" className="">
-                              <EllipsisVertical />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent
-                            align="end"
-                            className="flex flex-col gap-y-2"
-                          >
-                            <Link href={`/orders/12`}>
-                              <DropdownMenuItem role="link">
-                                View Details
-                              </DropdownMenuItem>
-                            </Link>
-                            <DropdownMenuItem role="link">
-                              Mark as Delivered
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => {
-                                setOpen(true);
-                                setAlertType("cancel");
-                              }}
-                              className="bg-red-500 focus:bg-red-600 focus:text-darkText dark:focus:bg-red-600 text-darkText"
-                            >
-                              Cancel Order
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                        <TableCell>{order.trackingNumber}</TableCell>
+                        <TableCell>{order.customer?.name}</TableCell>
+                        <TableCell>
+                          {formatDateToTime(order.createdAt)}
+                        </TableCell>
+                        <TableCell>${order.totalAmount}</TableCell>
+                        <TableCell
+                          className={`font-medium ${
+                            order.orderStatus === "pending"
+                              ? "text-blue-500"
+                              : order.orderStatus === "completed"
+                              ? "text-green-500"
+                              : order.orderStatus === "processing"
+                              ? "text-yellow-500"
+                              : order.orderStatus === "cancelled"
+                              ? "text-red-500"
+                              : ""
+                          }`}
+                        >
+                          {order.orderStatus}
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <ChangeOrderStatus
+                            id={order._id}
+                            orderStatus={order.orderStatus}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  : isOrders && (
+                      <TableRow>
+                        <TableCell
+                          colSpan={headers.length}
+                          className="text-start text-3xl pt-10"
+                        >
+                          No orders found
+                        </TableCell>
+                      </TableRow>
+                    )}
 
                 {isUsers && data.length > 0
                   ? data.map((user: IUser, idx: number) => (
@@ -226,9 +218,9 @@ export const DataTable = ({
                           </p>
                         </TableCell>
                         <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.phone}</TableCell>
+                        <TableCell>+{user.phone}</TableCell>
                         <TableCell>{user.address || "N/A"}</TableCell>
-                        <TableCell>{user.createdAt}</TableCell>
+                        <TableCell>{formatDate(user.createdAt)}</TableCell>
                       </TableRow>
                     ))
                   : isUsers && (
@@ -247,7 +239,12 @@ export const DataTable = ({
         </Table>
       </div>
       {pagination && <Pagination data={pagination} />}
-      <ConfirmationDialog open={open} setOpen={setOpen} alertType={alertType} />
+      <ConfirmationDialog
+        open={open}
+        setOpen={setOpen}
+        alertType={alertType}
+        onAccept={() => console.log("Delete")}
+      />
     </div>
   );
 };

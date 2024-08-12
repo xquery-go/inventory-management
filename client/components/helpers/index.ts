@@ -1,3 +1,4 @@
+import { ChangeOrderStatus } from "./ChangeOrderStatus";
 import { Filter } from "./Filter";
 import { ConfirmationDialog } from "./ConfirmationDialog";
 import { Pagination } from "./Pagination";
@@ -16,4 +17,5 @@ export {
   Pagination,
   ConfirmationDialog,
   Filter,
+  ChangeOrderStatus,
 };

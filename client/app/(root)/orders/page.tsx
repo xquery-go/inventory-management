@@ -1,10 +1,32 @@
+"use client";
+import { getAllOrders } from "@/API/order.api";
 import { Filter, PageTitle } from "@/components/helpers";
 import { DataTable } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { ordersTableHeaders } from "@/lib/data";
+import { useQuery } from "@tanstack/react-query";
 import { Download } from "lucide-react";
 
-const OrdersPage = () => {
+interface SearchParams {
+  search: string;
+  filter: string;
+  limit: number;
+  page: number;
+}
+
+const OrdersPage = ({ searchParams }: { searchParams: SearchParams }) => {
+  const { filter, limit, page, search } = searchParams;
+  const { data, isLoading } = useQuery({
+    queryKey: ["orders", page, search, filter, limit],
+    queryFn: () =>
+      getAllOrders({
+        limit,
+        page,
+        search,
+        status: filter,
+      }),
+  });
+
   return (
     <section className="section">
       <PageTitle title="Orders" desc="Track and manage your orders from here" />
@@ -20,7 +42,13 @@ const OrdersPage = () => {
           </Button>
           <Filter isOrders />
         </div>
-        <DataTable headers={ordersTableHeaders} isOrders />
+        <DataTable
+          headers={ordersTableHeaders}
+          isOrders
+          data={data?.response.data}
+          isLoading={isLoading}
+          pagination={data?.response.pagination}
+        />
       </div>
     </section>
   );

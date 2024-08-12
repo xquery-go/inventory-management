@@ -15,7 +15,7 @@ interface SearchParams {
 const UserPage = ({ searchParams }: { searchParams: SearchParams }) => {
   const { filter, limit, page, search } = searchParams;
   const { data, isLoading } = useQuery({
-    queryKey: ["categories", page, search, filter, limit],
+    queryKey: ["users", page, search, filter, limit],
     queryFn: () =>
       getAllUsers({
         limit,

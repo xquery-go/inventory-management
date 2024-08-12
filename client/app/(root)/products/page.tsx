@@ -18,7 +18,7 @@ interface SearchParams {
 const ProductsPage = ({ searchParams }: { searchParams: SearchParams }) => {
   const { filter, limit, page, search } = searchParams;
   const { data, isLoading } = useQuery({
-    queryKey: ["categories", page, search, filter, limit],
+    queryKey: ["products", page, search, filter, limit],
     queryFn: () =>
       getAllProducts({
         limit,

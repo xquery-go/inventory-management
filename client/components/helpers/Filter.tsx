@@ -57,9 +57,24 @@ export const Filter = ({
           <>
             <DropdownMenuLabel>Status</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Pending</DropdownMenuItem>
-            <DropdownMenuItem>Completed</DropdownMenuItem>
-            <DropdownMenuItem>Cancelled</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleFilterChange("filter", "")}>
+              All
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleFilterChange("filter", "pending")}
+            >
+              Pending
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleFilterChange("filter", "completed")}
+            >
+              Completed
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleFilterChange("filter", "cancelled")}
+            >
+              Cancelled
+            </DropdownMenuItem>
           </>
         ) : isCategories ? (
           <>
