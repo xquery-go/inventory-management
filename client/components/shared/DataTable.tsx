@@ -23,8 +23,8 @@ import { IOrderMin, IPagination, IProduct, IUser } from "@/types/types";
 import { TableSkeleton } from "../skeletons";
 import { formatDate, formatDateToTime } from "@/lib/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { changeOrderStatus } from "@/API/order.api";
 import { toast } from "sonner";
+import { deleteProduct } from "@/API/product.api";
 
 export const DataTable = ({
   headers,
@@ -45,6 +45,27 @@ export const DataTable = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [alertType, setAlertType] = useState("delete");
+  const [alertId, setAlertId] = useState("");
+
+  const queryClient = useQueryClient();
+
+  const { mutateAsync } = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+    },
+  });
+
+  const handleDeleteProduct = async (id: string) => {
+    if (!id) return;
+    const { response, success } = await mutateAsync(id);
+    if (success) {
+      setOpen(false);
+      return toast.success("Product deleted successfully");
+    } else return toast.error(response as string);
+  };
 
   return (
     <div className="w-full">
@@ -131,6 +152,7 @@ export const DataTable = ({
                                 onClick={() => {
                                   setOpen(true);
                                   setAlertType("delete");
+                                  setAlertId(product._id);
                                 }}
                                 className="bg-red-500 focus:bg-red-600 focus:text-darkText dark:focus:bg-red-600 text-darkText"
                               >
@@ -243,7 +265,11 @@ export const DataTable = ({
         open={open}
         setOpen={setOpen}
         alertType={alertType}
-        onAccept={() => console.log("Delete")}
+        onAccept={() =>
+          alertType === "delete"
+            ? handleDeleteProduct(alertId)
+            : console.log("something else")
+        }
       />
     </div>
   );

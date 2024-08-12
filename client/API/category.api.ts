@@ -2,7 +2,11 @@ import api from "./middleware";
 
 export const createCategory = async (formData: FormData) => {
   try {
-    const { data } = await api.post("/category", formData);
+    const { data } = await api.post("/category", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return {
       success: true,
@@ -24,7 +28,11 @@ export const updateCategory = async ({
   id: string;
 }) => {
   try {
-    const { data } = await api.put(`/category/${id}`, formData);
+    const { data } = await api.put(`/category/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return {
       success: true,

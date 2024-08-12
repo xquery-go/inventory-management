@@ -19,7 +19,7 @@ const config = {
     },
     extend: {
       colors: {
-        primaryCol: "#580ac5",
+        primaryCol: "#3a6dd0",
         bg: "#ffffff",
         text: "#000000",
         darkText: "#ffffff",

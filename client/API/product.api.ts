@@ -29,3 +29,81 @@ export const getAllProducts = async ({
     };
   }
 };
+
+export const deleteProduct = async (id: string) => {
+  try {
+    const { data } = await api.delete(`/products/${id}`);
+
+    return {
+      success: true,
+      response: data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      response: error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};
+
+export const addProduct = async (formData: FormData) => {
+  try {
+    const { data } = await api.post(`/products/`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return {
+      success: true,
+      response: data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      response: error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};
+
+export const updateProduct = async ({
+  formData,
+  id,
+}: {
+  formData: FormData;
+  id: string;
+}) => {
+  try {
+    const { data } = await api.put(`/products/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return {
+      success: true,
+      response: data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      response: error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};
+
+export const getSingleProduct = async (id: string) => {
+  try {
+    const { data } = await api.get(`/products/${id}`);
+
+    return {
+      success: true,
+      response: data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      response: error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};

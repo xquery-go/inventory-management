@@ -3,6 +3,7 @@ import { getAllCategories } from "@/API/category.api";
 import { CategoryForm } from "@/components/forms";
 import { Filter, Loader, PageTitle, Pagination } from "@/components/helpers";
 import { CategoryCard } from "@/components/helpers/CategoryCard";
+import { CategorySkeleton } from "@/components/skeletons";
 import { ICategory } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 
@@ -41,23 +42,24 @@ const CategoriesPage = ({ searchParams }: { searchParams: SearchParams }) => {
           <Filter isCategories />
         </div>
       </div>
-      {isLoading ? (
-        <div className="flex justify-center items-center h-48">
-          <Loader />
-        </div>
-      ) : (
-        <div className="my-8 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-5">
-          {data && data.success && data.response.data.length > 0 ? (
-            data.response.data.map((category: ICategory) => (
-              <CategoryCard key={category._id} {...category} />
-            ))
-          ) : (
-            <p className="dark:text-neutral-400 text-neutral-800 text-lg w-full">
-              No categories found
-            </p>
-          )}
-        </div>
-      )}
+      <div className="my-8 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-5">
+        {isLoading ? (
+          <CategorySkeleton />
+        ) : (
+          <>
+            {data && data.success && data.response.data.length > 0 ? (
+              data.response.data.map((category: ICategory) => (
+                <CategoryCard key={category._id} {...category} />
+              ))
+            ) : (
+              <p className="dark:text-neutral-400 text-neutral-800 text-lg w-full">
+                No categories found
+              </p>
+            )}
+          </>
+        )}
+      </div>
+
       {data && data.success && <Pagination data={data.response.pagination} />}
     </section>
   );

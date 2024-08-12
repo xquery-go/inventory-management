@@ -73,6 +73,7 @@ export interface IOrder {
     name: string;
     email: string;
     phone: string;
+    address?: string;
   };
   orderStatus: "pending" | "processing" | "completed" | "cancelled";
   paymentStatus: "pending" | "paid" | "failed";

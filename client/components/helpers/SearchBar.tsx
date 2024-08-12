@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useDebounce from "@/hooks/useDebouncer";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 export const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -14,10 +15,11 @@ export const SearchBar = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  // const isDesktop = useMediaQuery("(min-width: 640px)");
 
   useOutsideClick(ref, () => {
     setShowSearch(false);
-    setSearch("");
+    // !isDesktop && setSearch("");
   });
 
   const query = useDebounce(search, 700);
