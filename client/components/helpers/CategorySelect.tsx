@@ -7,17 +7,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
-export const CategorySelect = () => {
+export const CategorySelect = ({
+  watch,
+  setValue,
+  errorMessage,
+  isError,
+}: {
+  watch: UseFormWatch<any>;
+  setValue: UseFormSetValue<any>;
+  isError?: any;
+  errorMessage?: string;
+}) => {
   const { data, isLoading } = useQuery({
     queryKey: ["category-names"],
     queryFn: () => getCategoryNames(),
   });
 
+  const category = watch("category");
+
   return (
-    <Select>
-      <SelectTrigger className="w-full">
+    <Select
+      onValueChange={(e) => setValue("category", e, { shouldValidate: true })}
+    >
+      <SelectTrigger
+        className={cn(
+          "text-gray-400",
+          category && "text-black",
+          isError && "text-red-500 border-red-500"
+        )}
+      >
         <SelectValue placeholder="Select a category" />
       </SelectTrigger>
       <SelectContent className="max-h-52">

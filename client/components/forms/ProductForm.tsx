@@ -13,6 +13,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { CategorySelect } from "../helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { addProduct } from "@/API/product.api";
 
 interface FileInfo {
   file: File;
@@ -20,8 +23,14 @@ interface FileInfo {
 }
 
 export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
   const {
     register,
+    setValue,
+    watch,
+    reset,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof productSchema>>({
@@ -48,20 +57,34 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
+  const { mutateAsync } = useMutation({
+    mutationFn: addProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+    },
+  });
+
   const onSubmit: SubmitHandler<z.infer<typeof productSchema>> = async (
     data
   ) => {
     if (!files.length) return toast.error("Add atleast 1 product image");
-    // const { response, success } = await mutateAsync(data);
-    // if (success) {
-    //   // setUser(response.user);
-    //   localStorage.setItem("token", response.accessToken);
-    //   toast.success("Login successfull");
-    //   router.push("/");
-    // } else return toast.error(response as string);
-    console.log(data);
-  };
+    const formData = new FormData();
+    files.forEach(({ file }) => formData.append("images", file));
+    formData.append("name", data.title);
+    formData.append("description", data.description);
+    formData.append("category", data.category);
+    formData.append("price", data.price);
+    formData.append("stock", data.quantity);
 
+    const { response, success } = await mutateAsync(formData);
+    if (success) {
+      toast.success("Product Added!");
+      reset();
+      router.push("/products");
+    } else return toast.error(response as string);
+  };
   return (
     <div>
       <form
@@ -120,7 +143,12 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
         />
 
         <div>
-          <CategorySelect />
+          <CategorySelect
+            watch={watch}
+            setValue={setValue}
+            isError={errors.category || false}
+            errorMessage={errors.category?.message}
+          />
         </div>
         <Textarea
           placeholder="Product Description"
@@ -130,28 +158,29 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
           isError={errors.description || false}
           errorMessage={errors.description?.message}
         />
+        <div className="flex items-center w-full gap-3">
+          <FloatingInput
+            placeholder="Price"
+            type="number"
+            inputMode="numeric"
+            name="price"
+            register={register}
+            min={0}
+            isError={errors.price || false}
+            errorMessage={errors.price?.message}
+          />
 
-        <FloatingInput
-          placeholder="Price"
-          type="number"
-          inputMode="numeric"
-          name="price"
-          register={register}
-          min={0}
-          isError={errors.price || false}
-          errorMessage={errors.price?.message}
-        />
-
-        <FloatingInput
-          placeholder="Quantity"
-          type="number"
-          inputMode="numeric"
-          name="quantity"
-          register={register}
-          min={0}
-          isError={errors.quantity || false}
-          errorMessage={errors.quantity?.message}
-        />
+          <FloatingInput
+            placeholder="Quantity"
+            type="number"
+            inputMode="numeric"
+            name="quantity"
+            register={register}
+            min={0}
+            isError={errors.quantity || false}
+            errorMessage={errors.quantity?.message}
+          />
+        </div>
         <Button
           className="disabled:opacity-50 mt-2 bg-primaryCol hover:bg-primaryCol/90 text-darkText"
           type="submit"

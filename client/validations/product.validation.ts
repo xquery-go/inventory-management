@@ -5,8 +5,11 @@ const productSchema = z.object({
     .string({ message: "Product Title is required*" })
     .min(1, { message: "Product Title required*" }),
   description: z
-    .string({ message: "Product Descripiton required" })
+    .string({ message: "Product Descripiton is required" })
     .min(1, { message: "Product Descripiton required*" }),
+  category: z
+    .string({ message: "Product Category is required" })
+    .min(1, { message: "Product Category required*" }),
   price: z
     .string({ message: "Price is required" })
     .min(1, { message: "Price is required*" }),

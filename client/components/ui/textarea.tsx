@@ -40,7 +40,7 @@ export const Textarea = <T extends FieldValues>({
           isError && "text-red-500 peer-focus:text-red-500"
         )}
       >
-        {placeholder}
+        {isError ? errorMessage : placeholder}
       </label>
     </div>
   );
