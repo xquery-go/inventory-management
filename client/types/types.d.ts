@@ -16,8 +16,8 @@ export interface IProduct {
   _id: string;
   name: string;
   description: string;
-  price: number;
-  stock: number;
+  price: string;
+  stock: string;
   category: {
     _id: string;
     name: string;
@@ -107,4 +107,9 @@ export interface IPagination {
   hasNextPage: boolean;
   prevPage: number | null;
   nextPage: number | null;
+}
+
+export interface FileInfo {
+  file: File;
+  preview: string;
 }

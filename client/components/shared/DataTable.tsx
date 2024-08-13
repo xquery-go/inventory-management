@@ -143,7 +143,7 @@ export const DataTable = ({
                               align="end"
                               className="flex flex-col gap-y-2"
                             >
-                              <Link href={`/products/update/12`}>
+                              <Link href={`/products/update/${product._id}`}>
                                 <DropdownMenuItem role="link">
                                   Update
                                 </DropdownMenuItem>
@@ -180,7 +180,7 @@ export const DataTable = ({
                         className="dark:hover:bg-neutral-900 dark:border-neutral-800 overflow-x-hidden"
                         key={idx}
                       >
-                        <TableCell>{order.trackingNumber}</TableCell>
+                        <TableCell>#{order.trackingNumber}</TableCell>
                         <TableCell>{order.customer?.name}</TableCell>
                         <TableCell>
                           {formatDateToTime(order.createdAt)}

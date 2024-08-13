@@ -98,7 +98,7 @@ export const getSingleProduct = async (id: string) => {
 
     return {
       success: true,
-      response: data,
+      response: data.data,
     };
   } catch (error: any) {
     return {

@@ -14,11 +14,13 @@ import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 export const CategorySelect = ({
   watch,
   setValue,
+  value,
   errorMessage,
   isError,
 }: {
   watch: UseFormWatch<any>;
   setValue: UseFormSetValue<any>;
+  value?: string;
   isError?: any;
   errorMessage?: string;
 }) => {
@@ -36,11 +38,11 @@ export const CategorySelect = ({
       <SelectTrigger
         className={cn(
           "text-gray-400",
-          category && "text-black",
+          category && "text-black dark:text-white",
           isError && "text-red-500 border-red-500"
         )}
       >
-        <SelectValue placeholder="Select a category" />
+        <SelectValue placeholder={value || "Select a category"} />
       </SelectTrigger>
       <SelectContent className="max-h-52">
         {isLoading ? (

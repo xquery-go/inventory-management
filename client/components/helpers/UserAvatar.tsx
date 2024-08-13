@@ -11,8 +11,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
@@ -57,10 +55,7 @@ export const UserAvatar = () => {
         {user && (
           <>
             <Avatar>
-              <AvatarImage
-                src="https://github.com/shadcn.png"
-                alt={user.name}
-              />
+              <AvatarImage src="/images/dummy-user.webp" alt={user.name} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="max-md:hidden text-left">

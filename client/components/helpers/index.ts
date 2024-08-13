@@ -1,3 +1,4 @@
+import { ImageUpload } from "./ImageUpload";
 import { CategorySelect } from "./CategorySelect";
 import { ChangeOrderStatus } from "./ChangeOrderStatus";
 import { Filter } from "./Filter";
@@ -20,4 +21,5 @@ export {
   Filter,
   ChangeOrderStatus,
   CategorySelect,
+  ImageUpload,
 };
