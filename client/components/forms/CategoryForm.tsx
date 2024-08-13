@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import {
   Credenza,
   CredenzaBody,
@@ -10,7 +10,7 @@ import {
   CredenzaTrigger,
 } from "@/components/ui/credenza";
 import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
+import { Pen, Plus } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 import Image from "next/image";
 import { convertImage } from "@/lib/helpers";
@@ -21,23 +21,46 @@ import { categorySchema } from "@/validations/category.validation";
 import { FloatingInput } from "../ui/FloatingInput";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCategory } from "@/API/category.api";
+import { createCategory, updateCategory } from "@/API/category.api";
 
-export const CategoryForm = () => {
+export const CategoryForm = ({
+  isUpdate,
+  name,
+  description,
+  image,
+  slug,
+  id,
+}: {
+  isUpdate?: boolean;
+  name?: string;
+  description?: string;
+  image?: string;
+  slug?: string;
+  id?: string;
+}) => {
   const queryClient = useQueryClient();
 
   const [open, setOpen] = useState(false);
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<z.infer<typeof categorySchema>>({
     resolver: zodResolver(categorySchema),
   });
 
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState("");
+  const [preview, setPreview] = useState(image || "");
+
+  useEffect(() => {
+    if (isUpdate) {
+      setValue("name", name || "");
+      setValue("description", description || "");
+      setValue("slug", slug || "");
+    }
+  }, []);
 
   const handleFileChange = async (file: File | undefined) => {
     if (!file) return;
@@ -46,7 +69,7 @@ export const CategoryForm = () => {
     setPreview(response);
   };
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: createCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -76,25 +99,74 @@ export const CategoryForm = () => {
     } else return toast.error(response as string);
   };
 
+  const { mutateAsync: updateMutate, isPending: isUpdating } = useMutation({
+    mutationFn: updateCategory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["categories"],
+      });
+    },
+  });
+
+  const onUpdate: SubmitHandler<z.infer<typeof categorySchema>> = async (
+    data
+  ) => {
+    if (!id) return toast.error("Category id is required");
+    console.log(data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("slug", data.slug);
+    file && formData.append("image", file);
+
+    const { response, success } = await updateMutate({
+      formData,
+      id,
+    });
+    if (success) {
+      toast.success("Caetgory updated successfully");
+      reset();
+      setFile(null);
+      setPreview("");
+      setOpen(false);
+    } else return toast.error(response as string);
+  };
+
   return (
-    <Credenza open={open} onOpenChange={setOpen}>
-      <CredenzaTrigger className="flex items-center gap-x-1 bg-primaryCol text-darkText py-2 px-4 text-sm rounded-md">
-        Add Category
-        <Plus className="size-5" />
-      </CredenzaTrigger>
+    <Credenza
+      open={open}
+      onOpenChange={(e) => {
+        setOpen(e);
+        // e === false && reset();
+      }}
+    >
+      {isUpdate ? (
+        <CredenzaTrigger className="absolute -top-2 -right-2 shadow-md bg-green-500 dark:bg-green-700 rounded-lg py-2 px-2 text-darkText active:scale-[1.04]">
+          <Pen className="size-5" />
+        </CredenzaTrigger>
+      ) : (
+        <CredenzaTrigger className="flex items-center gap-x-1 bg-primaryCol text-darkText py-2 px-4 text-sm rounded-md">
+          Add Category
+          <Plus className="size-5" />
+        </CredenzaTrigger>
+      )}
       <CredenzaContent className="max-md:min-h-[400px] dark:bg-neutral-900 dark:border-neutral-800">
         <CredenzaHeader>
-          <CredenzaTitle>Add Category</CredenzaTitle>
+          <CredenzaTitle>
+            {isUpdate ? "Update Category" : "Add Category"}{" "}
+          </CredenzaTitle>
         </CredenzaHeader>
         <CredenzaBody className="sm:max-h-[600px] max-h-[500px] overflow-y-auto">
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={
+              isUpdate ? handleSubmit(onUpdate) : handleSubmit(onSubmit)
+            }
             className="flex flex-col gap-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4"
           >
             <div>
               {/* Image input */}
               <label htmlFor="category-file" className="relative h-40 w-full">
-                {file && preview ? (
+                {preview ? (
                   <Image
                     src={preview}
                     alt="category-preview"
@@ -149,11 +221,11 @@ export const CategoryForm = () => {
 
             <CredenzaFooter className="">
               <Button
-                className="w-full sm:text-lg bg-primaryCol hover:bg-primaryCol/90 text-darkText disabled:opacity-50"
+                className="w-full bg-primaryCol hover:bg-primaryCol/90 text-darkText disabled:opacity-50"
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isUpdate ? isUpdating : isPending}
               >
-                Add
+                {isUpdate ? "Update Category" : "Add Category"}
               </Button>
             </CredenzaFooter>
           </form>

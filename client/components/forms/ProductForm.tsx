@@ -70,6 +70,7 @@ export const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
     data
   ) => {
     if (!files.length) return toast.error("Add atleast 1 product image");
+    if (files.length > 10) return toast.error("Maximum 10 images allowed");
     const formData = new FormData();
     files.forEach(({ file }) => formData.append("images", file));
     formData.append("name", data.title);

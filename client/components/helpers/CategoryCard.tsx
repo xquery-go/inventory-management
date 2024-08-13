@@ -2,12 +2,14 @@ import { ICategory } from "@/types/types";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Pen } from "lucide-react";
+import { CategoryForm } from "../forms";
 
 export const CategoryCard = ({
   name,
   imageUrl,
   description,
   slug,
+  _id,
 }: ICategory) => {
   return (
     <div className="bg-neutral-100 dark:bg-neutral-900 p-2.5 pb-4 rounded-lg relative">
@@ -31,9 +33,14 @@ export const CategoryCard = ({
         </div>
       </div>
 
-      <button className="absolute -top-2 -right-2 shadow-md bg-green-500 dark:bg-green-700 rounded-lg py-2 px-2 text-darkText active:scale-[1.04]">
-        <Pen className="size-5" />
-      </button>
+      <CategoryForm
+        isUpdate
+        name={name}
+        description={description}
+        image={imageUrl}
+        slug={slug}
+        id={_id}
+      />
     </div>
   );
 };
