@@ -1,7 +1,7 @@
 "use client";
 import { getAllCategories } from "@/API/category.api";
 import { CategoryForm } from "@/components/forms";
-import { Filter, Loader, PageTitle, Pagination } from "@/components/helpers";
+import { Filter, PageTitle, Pagination } from "@/components/helpers";
 import { CategoryCard } from "@/components/helpers/CategoryCard";
 import { CategorySkeleton } from "@/components/skeletons";
 import { ICategory } from "@/types/types";
@@ -33,7 +33,7 @@ const CategoriesPage = ({ searchParams }: { searchParams: SearchParams }) => {
       <div className="flex sm:items-center justify-between max-sm:flex-col w-full gap-x-5 gap-y-2">
         <PageTitle
           title="Categories"
-          desc="Manage all your categories here, you can add, edit and categories."
+          desc="Manage all your categories here, you can add, and edit categories."
         />
       </div>
       <div className="mt-8">
