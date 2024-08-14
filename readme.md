@@ -218,6 +218,8 @@ server {
     proxy_set_header X-Forwarded-Proto $scheme;  
  }
 }
-
-
 ```
+
+### Useful Links:
+- https://thapatechnical.shop/blogs/host-a-mern-stack-app-on-a-vps
+- https://docs.chaicode.com/server-setup/
