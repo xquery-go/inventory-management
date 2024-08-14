@@ -75,10 +75,6 @@ export const loginUser = async (
       sameSite: "none",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      domain:
-        process.env.NODE_ENV === "production"
-          ? ".web-veritas.com"
-          : "localhost",
     };
 
     return res.status(200).cookie("token", token, options).json({
@@ -107,10 +103,6 @@ export const logoutUser = async (
       sameSite: "none",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      domain:
-        process.env.NODE_ENV === "production"
-          ? ".web-veritas.com"
-          : "localhost",
     };
 
     return res.status(200).clearCookie("token", options).json({

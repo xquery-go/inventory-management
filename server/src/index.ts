@@ -22,10 +22,7 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? process.env.CLIENT_URL_PROD
-        : process.env.CLIENT_URL,
+    origin: true,
     credentials: true,
   })
 );
