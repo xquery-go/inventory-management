@@ -74,7 +74,7 @@ export const loginUser = async (
       maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
       sameSite: "none",
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
     };
 
     return res.status(200).cookie("token", token, options).json({
@@ -102,7 +102,7 @@ export const logoutUser = async (
     const options: CookieOptions = {
       sameSite: "none",
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
     };
 
     return res.status(200).clearCookie("token", options).json({
