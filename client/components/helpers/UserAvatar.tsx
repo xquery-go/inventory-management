@@ -26,16 +26,6 @@ export const UserAvatar = () => {
     initialData: user ? { success: true, response: user } : undefined,
   });
 
-  useEffect(() => {
-    if (!isLoading && data && data.success && data.response) {
-      setUser(data.response);
-    }
-    // else if (!isLoading && data && !data.success) {
-    //   typeof window !== undefined && localStorage.removeItem("token");
-    //   router.push("/login");
-    // }
-  }, [data]);
-
   const { mutateAsync, isPending } = useMutation({
     mutationFn: logoutUser,
   });
@@ -48,6 +38,16 @@ export const UserAvatar = () => {
     localStorage.removeItem("token");
     router.push("/login");
   };
+
+  useEffect(() => {
+    if (!isLoading && data && data.success && data.response) {
+      setUser(data.response);
+    } else if (!isLoading && data && !data.success) {
+      typeof window !== undefined && localStorage.removeItem("token");
+      handleLogout();
+      router.push("/login");
+    }
+  }, [data]);
 
   return (
     <DropdownMenu>

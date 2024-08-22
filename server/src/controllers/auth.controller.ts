@@ -72,10 +72,11 @@ export const loginUser = async (
     // Cookie options
     const options: CookieOptions = {
       maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-      sameSite: "lax",
+      // sameSite: "lax",
+      sameSite: "none",
       httpOnly: true,
       secure: true,
-      domain: ".web-veritas.com",
+      // domain: ".web-veritas.com",
     };
 
     console.log("Setting cookie: ", options);
@@ -103,10 +104,11 @@ export const logoutUser = async (
     if (!req.user) return next(throwError("Unauthorized Access", 401));
 
     const options: CookieOptions = {
-      sameSite: "lax",
+      // sameSite: "lax",
+      sameSite: "none",
       httpOnly: true,
       secure: true,
-      domain: ".web-veritas.com",
+      // domain: ".web-veritas.com",
     };
 
     return res.status(200).clearCookie("token", options).json({

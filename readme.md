@@ -105,6 +105,10 @@ server {
      proxy_set_header X-Real-IP $remote_addr;  # Set the X-Real-IP header to the client's IP address
      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;  # Append client's IP addresses to X-Forwarded-For header
      proxy_set_header X-Forwarded-Proto $scheme;  # Set the X-Forwarded-Proto header to the client's protocol (http or https)
+
+     # Important For Cookies
+     proxy_set_header X-Forwarded-Host $host;
+     proxy_cookie_path / "/; Secure; HttpOnly; SameSite=None"
  }
 }
 ``` 
