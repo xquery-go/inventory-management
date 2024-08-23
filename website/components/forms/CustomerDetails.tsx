@@ -216,8 +216,9 @@ export const CustomerDetails = () => {
           </div>
         </div>
 
-        <button className="bg-primaryCol text-white py-2.5 px-8 mt-10"
+        <button className="disabled:opacity-85 bg-primaryCol text-white py-2.5 px-8 mt-10"
         disabled={isPending}
+        type="submit"
         >{isPending ? "Placing your order..." : "Place Order"}</button>
       </form>
     </div>
