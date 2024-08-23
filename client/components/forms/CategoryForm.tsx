@@ -167,13 +167,15 @@ export const CategoryForm = ({
               {/* Image input */}
               <label htmlFor="category-file" className="relative h-40 w-full">
                 {preview ? (
-                  <Image
-                    src={preview}
-                    alt="category-preview"
-                    width={400}
-                    height={250}
-                    className="object-cover w-full h-40 rounded-lg"
-                  />
+                  <div className="w-full center">
+                    <Image
+                      src={preview}
+                      alt="category-preview"
+                      width={70}
+                      height={70}
+                      className="object-cover size-[80px] cursor-pointer"
+                    />
+                  </div>
                 ) : (
                   <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg py-5 px-5 w-full h-40 center gap-x-1 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800/80 transition-all duration-100">
                     <p>Add Image</p>

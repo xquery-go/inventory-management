@@ -165,7 +165,7 @@ export const getProducts = async (
 
     return res.status(200).json({
       success: true,
-      message: "",
+      message: "All Produts fetched",
       data: dataWithImages,
       pagination,
     });

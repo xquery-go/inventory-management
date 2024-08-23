@@ -14,13 +14,15 @@ export const CategoryCard = ({
   return (
     <div className="bg-neutral-100 dark:bg-neutral-900 p-2.5 pb-4 rounded-lg relative">
       <div className="flex items-start flex-col gap-x-3">
-        <Image
-          src={imageUrl}
-          alt={name}
-          width={300}
-          height={250}
-          className="object-cover rounded-lg w-full h-52"
-        />
+        <div className="w-full center mb-5">
+          <Image
+            src={imageUrl}
+            alt={name}
+            width={70}
+            height={70}
+            className="object-cover rounded-lg"
+          />
+        </div>
         <div className="pt-2">
           <h3 className="text-lg font-semibold dark:text-neutral-200 text-neutral-800">
             {name}

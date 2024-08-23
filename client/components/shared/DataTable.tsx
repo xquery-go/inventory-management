@@ -116,7 +116,7 @@ export const DataTable = ({
                                 alt={product.name}
                                 width={200}
                                 height={200}
-                                className="object-cover w-[80px] rounded-lg h-[50px]"
+                                className="object-cover min-w-[80px] w-[80px] h-[50px] rounded-lg "
                               />
                             )}
                           <p className="text-text dark:text-darkText">
@@ -126,7 +126,11 @@ export const DataTable = ({
                         <TableCell>${product.price}</TableCell>
                         <TableCell>{product.stock}</TableCell>
                         <TableCell>{product.rating}</TableCell>
-                        <TableCell>{product.description}</TableCell>
+                        <TableCell>
+                          {product.description.length > 25
+                            ? `${product.description.slice(0, 25)}...`
+                            : product.description}
+                        </TableCell>
                         <TableCell>
                           {" "}
                           <DropdownMenu>
