@@ -73,7 +73,7 @@
     @apply flex items-center justify-center;
   }
   .section {
-    @apply md:px-10 px-0 py-10;
+    @apply md:px-10 px-4;
   }
   .link {
     @apply font-normal hover:text-primaryCol transition-all duration-100;

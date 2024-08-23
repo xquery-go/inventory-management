@@ -1,0 +1,87 @@
+"use client";
+import useCartStore, { getStateValues } from "@/store/cart.store";
+import { Heart, Star } from "lucide-react";
+import Image from "next/image";
+
+export const ProductCard = ({
+  image,
+  name,
+  price,
+  id,
+}: {
+  id: number;
+  image: string;
+  name: string;
+  price: number;
+}) => {
+  const setCartData = useCartStore((state) => state.setValues);
+
+  const addProductToCart = () => {
+    const currentCartItems = useCartStore.getState().cartItems;
+    const existingProductIndex = currentCartItems.findIndex(
+      (item) => item.id === id
+    );
+
+    if (existingProductIndex !== -1) {
+      // Product already exists in the cart, increment the quantity
+      const updatedCartItems = currentCartItems.map((item, index) =>
+        index === existingProductIndex
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      setCartData({ cartItems: updatedCartItems, open: true });
+    } else {
+      setCartData({
+        open: true,
+        cartItems: [
+          ...currentCartItems,
+          {
+            id,
+            name,
+            image,
+            price,
+            quantity: 1,
+          },
+        ],
+      });
+    }
+  };
+
+  return (
+    <div className="max-w-[250px] w-full group">
+      <div className="relative">
+        <Image
+          src={image}
+          alt={name}
+          width={500}
+          height={500}
+          className="object-cover w-full max-h-[250px]"
+        />
+        <button
+          onClick={addProductToCart}
+          className="absolute bg-black text-white text-center sm:text-lg py-3 w-full bottom-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          Add To Cart
+        </button>
+        <button className="center bg-white size-6 rounded-full absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <Heart className="text-primaryCol size-4" />
+        </button>
+      </div>
+      <div>
+        <h4 className="text-lg font-semibold mt-5">{name}</h4>
+        <p className="text-sm text-gray-500">Product Description</p>
+        <div className="mt-2 flex max-sm:flex-col sm:items-center sm:justify-between gap-x-2">
+          <p className="text-lg text-primaryCol font-semibold">${price}</p>
+          <div className="flex items-center gap-x-1">
+            <Star className="size-4" fill="#ffb703" />
+            <Star className="size-4" fill="#ffb703" />
+            <Star className="size-4" fill="#ffb703" />
+            <Star className="size-4" fill="#ffb703" />
+            <Star className="size-4" fill="#ffb703" />
+            <p className="text-sm text-gray-500 select-none">(35)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

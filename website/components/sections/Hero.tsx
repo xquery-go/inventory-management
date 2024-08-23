@@ -4,7 +4,7 @@ import React from "react";
 export const Hero = () => {
   return (
     <section className="bg-secondaryCol section">
-      <div className="container grid lg:grid-cols-2 grid-cols-1 items-center">
+      <div className="md:container grid lg:grid-cols-2 grid-cols-1 items-center">
         <div className="max-lg:py-10 max-sm:pt-10 max-sm:pb-0">
           <h2 className="md:text-6xl text-4xl max-sm:text-left font-semibold leading-tight">
             Boost ABC123 <br className="max-md:hidden" /> Headphone Black

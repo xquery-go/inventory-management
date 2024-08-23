@@ -3,6 +3,8 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import { Heart, Menu, ShoppingBag, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { Cart } from "./Cart";
+import useCartStore from "@/store/cart.store";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +13,7 @@ export const Header = () => {
   useOutsideClick(ref, () => {
     setIsOpen(false);
   });
+  const setCartData = useCartStore((state) => state.setValues);
 
   return (
     <header className="relative bg-supportBg flex items-center py-6 md:px-10 px-4">
@@ -73,20 +76,26 @@ export const Header = () => {
         )}
 
         <div className="flex items-center gap-x-5">
-          {!isOpen ? (
-            <Menu
-              className="size-7 cursor-pointer"
-              onClick={() => setIsOpen(true)}
-            />
-          ) : (
-            <X
-              className="size-7 cursor-pointer"
-              onClick={() => setIsOpen(false)}
-            />
-          )}
+          <div className="md:hidden">
+            {!isOpen ? (
+              <Menu
+                className="size-7 cursor-pointer"
+                onClick={() => setIsOpen(true)}
+              />
+            ) : (
+              <X
+                className="size-7 cursor-pointer"
+                onClick={() => setIsOpen(false)}
+              />
+            )}
+          </div>
           <div className="relative hover:text-primaryCol transition-all duration-100 cursor-pointer">
-            <ShoppingBag className="" />
-            <div>
+            <ShoppingBag
+              className=""
+              onClick={() => setCartData({ open: true })}
+            />
+            <Cart />
+            <div className="pointer-events-none select-none">
               <span className="absolute -top-2 -right-2 text-[10px] bg-primaryCol text-white rounded-full size-5 center">
                 2
               </span>

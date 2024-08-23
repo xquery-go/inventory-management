@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.className} ${roboto.variable} bg-bg`}>
         <ReactQueryProvider>
           <Toaster position="top-right" richColors />
