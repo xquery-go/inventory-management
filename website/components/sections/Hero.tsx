@@ -3,7 +3,7 @@ import React from "react";
 
 export const Hero = () => {
   return (
-    <section className="bg-secondaryCol section">
+    <section className="bg-secondaryCol section md:py-24 py-10">
       <div className="md:container grid lg:grid-cols-2 grid-cols-1 items-center">
         <div className="max-lg:py-10 max-sm:pt-10 max-sm:pb-0">
           <h2 className="md:text-6xl text-4xl max-sm:text-left font-semibold leading-tight">
@@ -22,6 +22,7 @@ export const Hero = () => {
           <Image
             src="/images/hero-image.png"
             alt="hero.png"
+            priority
             width={1000}
             height={1000}
             className="sm:w-full w-[2500px] h-[500px] object-cover"

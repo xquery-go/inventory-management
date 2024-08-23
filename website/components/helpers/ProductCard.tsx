@@ -1,25 +1,17 @@
 "use client";
 import useCartStore, { getStateValues } from "@/store/cart.store";
+import { IProduct } from "@/types/types";
 import { Heart, Star } from "lucide-react";
 import Image from "next/image";
 
-export const ProductCard = ({
-  image,
-  name,
-  price,
-  id,
-}: {
-  id: number;
-  image: string;
-  name: string;
-  price: number;
-}) => {
+export const ProductCard = ({ product }: { product: IProduct }) => {
+  const { name, imageUrls, _id, category, price } = product;
   const setCartData = useCartStore((state) => state.setValues);
 
   const addProductToCart = () => {
     const currentCartItems = useCartStore.getState().cartItems;
     const existingProductIndex = currentCartItems.findIndex(
-      (item) => item.id === id
+      (item) => item._id === _id
     );
 
     if (existingProductIndex !== -1) {
@@ -36,10 +28,10 @@ export const ProductCard = ({
         cartItems: [
           ...currentCartItems,
           {
-            id,
+            _id,
             name,
-            image,
-            price,
+            image: imageUrls[0],
+            price: Number(price),
             quantity: 1,
           },
         ],
@@ -51,14 +43,14 @@ export const ProductCard = ({
     <div className="max-w-[250px] w-full group">
       <div className="relative">
         <Image
-          src={image}
+          src={imageUrls[0]}
           alt={name}
           width={500}
           height={500}
-          className="object-cover w-full max-h-[250px]"
+          className="object-cover w-full h-[250px]"
         />
         <button
-          onClick={addProductToCart}
+          onClick={() => addProductToCart()}
           className="absolute bg-black text-white text-center sm:text-lg py-3 w-full bottom-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         >
           Add To Cart
@@ -69,7 +61,6 @@ export const ProductCard = ({
       </div>
       <div>
         <h4 className="text-lg font-semibold mt-5">{name}</h4>
-        <p className="text-sm text-gray-500">Product Description</p>
         <div className="mt-2 flex max-sm:flex-col sm:items-center sm:justify-between gap-x-2">
           <p className="text-lg text-primaryCol font-semibold">${price}</p>
           <div className="flex items-center gap-x-1">

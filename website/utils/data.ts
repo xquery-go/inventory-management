@@ -73,3 +73,10 @@ export const productData = [
     price: 200,
   },
 ];
+
+export const orderDetailsHeaders = [
+  { name: "Product", key: "product" },
+  { name: "Price", key: "price" },
+  { name: "Quantity", key: "quantity" },
+  { name: "Total", key: "total" },
+];

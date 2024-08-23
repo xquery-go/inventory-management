@@ -9,6 +9,7 @@ import {
 import useCartStore, { getStateValues } from "@/store/cart.store";
 import { X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
 
 export const Cart = () => {
@@ -47,14 +48,16 @@ export const Cart = () => {
     });
   };
 
-  console.log(cartData);
   return (
     <Sheet open={cartData.open} onOpenChange={handleOpenChange}>
       <SheetContent className="min-w-[350px]">
         <SheetHeader>
           <SheetTitle className="md:mb-5 flex justify-between">
             Your Bag
-            <button className="">
+            <button
+              onClick={() => handleOpenChange(false)}
+              className="outline-none"
+            >
               <X />
             </button>
           </SheetTitle>
@@ -81,9 +84,11 @@ export const Cart = () => {
               <p className="text-[16px] text-black">${cartData.total}</p>
             </div>
 
-            <button className="bg-primaryCol w-full py-3 text-center text-white mt-4 rounded-sm text-[16px]">
-              Proceed to Checkout
-            </button>
+            <Link href="/checkout" onClick={() => handleOpenChange(false)}>
+              <button className="bg-primaryCol w-full py-3 text-center text-white mt-4 rounded-sm text-[16px]">
+                Proceed to Checkout
+              </button>
+            </Link>
           </div>
         </div>
       </SheetContent>
@@ -92,13 +97,13 @@ export const Cart = () => {
 };
 
 const CartItem = ({
-  id,
+  _id,
   name,
   image,
   price,
   quantity,
 }: {
-  id: number;
+  _id: string;
   name: string;
   image: string;
   price: number;
@@ -108,7 +113,18 @@ const CartItem = ({
     const newQuantity = parseInt(e.target.value);
     const currentCartItems = useCartStore.getState().cartItems;
     const updatedCartItems = currentCartItems.map((item) =>
-      item.id === id ? { ...item, quantity: newQuantity } : item
+      item._id === _id ? { ...item, quantity: newQuantity } : item
+    );
+
+    useCartStore.getState().setValues({
+      cartItems: updatedCartItems,
+    });
+  };
+
+  const removeItemFromCart = () => {
+    const currentCartItems = useCartStore.getState().cartItems;
+    const updatedCartItems = currentCartItems.filter(
+      (item) => item._id !== _id
     );
 
     useCartStore.getState().setValues({
@@ -134,7 +150,10 @@ const CartItem = ({
         </div>
       </div>
       <div className="flex flex-col items-end justify-between h-full">
-        <button className="center size-6 rounded-full bg-red-500 text-white">
+        <button
+          onClick={() => removeItemFromCart()}
+          className="center size-6 rounded-full bg-red-500 text-white"
+        >
           <X className="size-4" />
         </button>
         <div>

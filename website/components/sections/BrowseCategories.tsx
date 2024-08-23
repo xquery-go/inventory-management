@@ -10,6 +10,10 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCategories } from "@/API/category.api";
+import { ICategory } from "@/types/types";
+import { Skeleton } from "../ui/skeleton";
 
 export const BrowseCategories = () => {
   const [api, setApi] = useState<CarouselApi>();
@@ -28,6 +32,11 @@ export const BrowseCategories = () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
   }, [api]);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getAllCategories({ page: 1, limit: 10 }),
+  });
 
   return (
     <section className="section bg-white container pt-24 md:pb-10">
@@ -66,14 +75,33 @@ export const BrowseCategories = () => {
           className="w-full"
         >
           <CarouselContent>
-            {categoriesData.map((category, index) => (
-              <CarouselItem
-                key={index}
-                className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
-              >
-                <CategoryCard {...category} />
-              </CarouselItem>
-            ))}
+            {isLoading ? (
+              <>
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <CarouselItem
+                    key={index}
+                    className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
+                  >
+                    <Skeleton className="bg-supportBg h-[160px] w-full mx-2" />
+                  </CarouselItem>
+                ))}
+              </>
+            ) : data && data.response.data.length > 0 ? (
+              data.response.data.map((category: ICategory, index: number) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
+                >
+                  <CategoryCard
+                    image={category.imageUrl}
+                    title={category.name}
+                    id={category._id}
+                  />
+                </CarouselItem>
+              ))
+            ) : (
+              <p className="text-2xl text-center">No Categories Found</p>
+            )}
           </CarouselContent>
         </Carousel>
       </div>
@@ -81,16 +109,24 @@ export const BrowseCategories = () => {
   );
 };
 
-const CategoryCard = ({ title, image }: { title: string; image: string }) => {
+const CategoryCard = ({
+  title,
+  image,
+  id,
+}: {
+  title: string;
+  image: string;
+  id: string;
+}) => {
   return (
-    <div className="border border-primaryCol bg-supportBg py-5 max-w-[200px] overflow-hidden">
+    <div className="border border-primaryCol bg-supportBg py-5 max-w-[200px] overflow-hidden h-full">
       <div className="w-full center">
         <Image
           src={image}
           alt=""
           width={70}
           height={70}
-          className="object-cover"
+          className="object-cover size-[80px]"
         />
       </div>
       <h3 className="text-center font-medium mt-2 select-none">{title}</h3>
