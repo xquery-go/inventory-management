@@ -34,6 +34,7 @@ const CategoryPage = ({ searchParams }: { searchParams: SearchParams }) => {
         ) : data && data.response.data.length > 0 ? (
           data.response.data.map((category: ICategory, index: number) => (
             <CategoryCard
+              key={index}
               image={category.imageUrl}
               title={category.name}
               id={category._id}

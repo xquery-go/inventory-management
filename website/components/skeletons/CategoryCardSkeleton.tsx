@@ -4,7 +4,10 @@ export const CategoryCardSkeleton = () => {
   return (
     <>
       {Array.from({ length: 5 }).map((_, index) => (
-        <Skeleton className="bg-supportBg h-[180px] w-[200px] rounded-sm" />
+        <Skeleton
+          key={index}
+          className="bg-supportBg h-[180px] w-[200px] rounded-sm"
+        />
       ))}
     </>
   );
