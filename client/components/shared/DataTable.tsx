@@ -185,7 +185,7 @@ export const DataTable = ({
                         key={idx}
                       >
                         <TableCell>#{order.trackingNumber}</TableCell>
-                        <TableCell>{order.customer?.name}</TableCell>
+                        <TableCell>{order.name}</TableCell>
                         <TableCell>
                           {formatDateToTime(order.createdAt)}
                         </TableCell>

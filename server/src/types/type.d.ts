@@ -48,7 +48,10 @@ export interface IOrder {
   shippingAddress: IAddress;
   billingAddress: IAddress;
   paymentMethod: "cash_on_delivery" | "online";
-  customer: Schema.Types.ObjectId;
+  customer?: Schema.Types.ObjectId;
+  name: string;
+  email: string;
+  phone: string;
   orderStatus: "pending" | "processing" | "completed" | "cancelled";
   paymentStatus: "pending" | "paid" | "failed";
   trackingNumber: string;

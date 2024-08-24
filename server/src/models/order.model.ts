@@ -1,6 +1,7 @@
 import { Schema, models, model, Model } from "mongoose";
 import { IAddress, IOrder, IOrderItem } from "../types/type";
 import mongoosePaginate from "mongoose-paginate-v2";
+import validator from "validator";
 
 const AddressSchema = new Schema<IAddress>({
   street: { type: String, required: true },
@@ -43,7 +44,23 @@ const OrderSchema = new Schema<IOrder>(
     customer: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "Customer is required"],
+    },
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      validate: validator.isEmail,
+      trim: true,
+      lowercase: true,
+    },
+    phone: {
+      type: String,
+      required: [true, "Phone is required"],
+      minlength: [8, "Phone number is invalid"],
+      maxlength: [15, "Phone number is invalid"],
     },
     orderStatus: {
       type: String,

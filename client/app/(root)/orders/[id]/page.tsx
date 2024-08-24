@@ -148,19 +148,19 @@ const OrderTrackPage = ({ params }: { params: { id: string } }) => {
                 <p className="text-sm text-pretty tracking-wide">
                   Name:{" "}
                   <span className="font-medium">
-                    {data.response?.customer?.name || "N/A"}
+                    {data.response?.name || "N/A"}
                   </span>
                 </p>
                 <p className="text-sm text-pretty tracking-wide">
                   Phone:{" "}
                   <span className="font-medium">
-                    {"+" + data.response?.customer?.phone || "N/A"}
+                    {"+" + data.response?.phone || "N/A"}
                   </span>
                 </p>
                 <p className="text-sm text-pretty tracking-wide">
                   Email:{" "}
                   <span className="font-medium">
-                    {data.response?.customer?.email || "N/A"}
+                    {data.response?.email || "N/A"}
                   </span>
                 </p>
                 <p className="text-sm text-pretty tracking-wide">

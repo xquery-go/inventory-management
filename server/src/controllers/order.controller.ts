@@ -18,8 +18,6 @@ export const addOrder = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.user) return next(throwError("Unauthorized Access", 401));
-
     const {
       orderItems,
       couponCode,
@@ -27,6 +25,9 @@ export const addOrder = async (
       shippingAddress,
       billingAddress,
       paymentMethod,
+      name,
+      email,
+      phone,
       notes,
     } = req.body;
 
@@ -51,7 +52,7 @@ export const addOrder = async (
 
     const trackingNumber = generateTrackingNumber();
 
-    const order = await Order.create({
+    const orderData: any = {
       orderItems: orderItemsData,
       totalAmount,
       couponCode,
@@ -60,10 +61,14 @@ export const addOrder = async (
       billingAddress,
       paymentMethod,
       trackingNumber,
-      customer: req.user._id,
+      name,
+      email,
+      phone,
       notes,
-    });
+    };
+    if (req?.user?._id) orderData.customer = req.user._id;
 
+    const order = await Order.create(orderData);
     if (!order) return next(throwError("Order not created", 500));
 
     return res.status(200).json({
@@ -155,7 +160,8 @@ export const getAllOrders = async (
       limit,
       sort: sort,
       populate,
-      select: "_id trackingNumber customer orderStatus createdAt totalAmount",
+      select:
+        "_id trackingNumber customer name orderStatus createdAt totalAmount",
     });
 
     return res.status(200).json({

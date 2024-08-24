@@ -68,13 +68,16 @@ export interface IOrder {
   shippingAddress: IAddress;
   billingAddress: IAddress;
   paymentMethod: "cash_on_delivery" | "online";
-  customer: {
+  customer?: {
     _id: string;
     name: string;
     email: string;
     phone: string;
     address?: string;
   };
+  name: string;
+  email: string;
+  phone: string;
   orderStatus: "pending" | "processing" | "completed" | "cancelled";
   paymentStatus: "pending" | "paid" | "failed";
   trackingNumber: string;
@@ -87,10 +90,11 @@ export interface IOrder {
 export interface IOrderMin {
   _id: string;
   totalAmount: number;
-  customer: {
+  customer?: {
     _id: string;
     name: string;
   };
+  name: string;
   orderStatus: string;
   trackingNumber: string;
   paymentStatus: string;

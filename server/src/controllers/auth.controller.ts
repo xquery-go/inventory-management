@@ -79,8 +79,6 @@ export const loginUser = async (
       // domain: ".web-veritas.com",
     };
 
-    console.log("Setting cookie: ", options);
-
     return res.status(200).cookie("token", token, options).json({
       success: true,
       message: "Login successful",
