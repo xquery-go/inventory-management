@@ -9,8 +9,17 @@ import { addOrder } from "@/API/order.api";
 import { FloatingInput } from "../ui/FloatingInput";
 import { Textarea } from "../ui/textarea";
 import Image from "next/image";
+import { useState } from "react";
+import { PaymentModal } from "../helpers";
+import { useRouter } from "next/navigation";
+import useCartStore, { getStateValues } from "@/store/cart.store";
 
 export const CustomerDetails = () => {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const cart = useCartStore((state) => state.cartItems);
+  const [orderId, setOrderId] = useState("");
+  const [trackingNumber, setTrackingNumber] = useState("");
   const {
     register,
     setValue,
@@ -29,22 +38,46 @@ export const CustomerDetails = () => {
   const onSubmit: SubmitHandler<z.infer<typeof customerSchema>> = async (
     data
   ) => {
-    console.log(data);
+    const orderItems = cart.map((item) => ({
+      product: item._id,
+      quantity: item.quantity,
+    }));
+    const orderData = {
+      billingAddress: data.billingAddress,
+      email: data.email,
+      name: data.name,
+      notes: data.notes,
+      paymentMethod: data.paymentMethod,
+      phone: data.phone,
+      shippingAddress: data.shippingAddress,
+      orderItems,
+    };
 
-    // const { response, success } = await mutateAsync(formData);
-    // if (success) {
-    //   toast.success("Product Added!");
-    //   reset();
-    //   router.push("/products");
-    // } else return toast.error(response as string);
+    const { response, success } = await mutateAsync(orderData);
+    if (success) {
+      setOrderId(response._id);
+      setTrackingNumber(response.trackingNumber);
+      reset();
+      useCartStore.getState().setValues({
+        cartItems: [],
+        subtotal: 0,
+        discount: 0,
+        total: 0,
+      });
+      if (data.paymentMethod === "online") setOpen(true);
+      else {
+        router.push(
+          `/checkout/success?orderId=${orderId}&trackingNumber=${trackingNumber}`
+        );
+      }
+    } else return toast.error(response as string);
   };
 
   return (
     <div className="mt-5">
       <h2 className="text-xl font-semibold font-roboto">Your Details:</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-5">
-        {/* Address */}
-
+        {/* Personal Details */}
         <div className="grid md:grid-cols-2 grid-cols-1 gap-5 mt-5">
           <div className="bg-supportBg py-2 px-4 shadow-sm rounded-md">
             <h3 className="text-lg mb-2 font-roboto">Personal Details</h3>
@@ -80,8 +113,9 @@ export const CustomerDetails = () => {
                 <div className="flex items-center gap-x-2">
                   <input
                     type="radio"
-                    value="Stripe"
+                    value="online"
                     {...register("paymentMethod")}
+                    className="accent-primaryCol"
                   />
                   <span className="font-roboto">Stripe</span>
                 </div>
@@ -97,8 +131,9 @@ export const CustomerDetails = () => {
                 <div className="flex items-center gap-x-2">
                   <input
                     type="radio"
-                    value="Cash"
+                    value="cash_on_delivery"
                     {...register("paymentMethod")}
+                    className="accent-primaryCol"
                   />
                   <span className="font-roboto">Cash On Delivery (COD)</span>
                 </div>
@@ -111,6 +146,11 @@ export const CustomerDetails = () => {
                 />
               </label>
             </div>
+            {errors?.paymentMethod && (
+              <span className="text-sm text-red-500 font-roboto ml-2">
+                {errors.paymentMethod.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -216,11 +256,21 @@ export const CustomerDetails = () => {
           </div>
         </div>
 
-        <button className="disabled:opacity-85 bg-primaryCol text-white py-2.5 px-8 mt-10"
-        disabled={isPending}
-        type="submit"
-        >{isPending ? "Placing your order..." : "Place Order"}</button>
+        <button
+          className="outline-none disabled:opacity-85 bg-primaryCol text-white py-2.5 px-8 mt-10"
+          disabled={isPending}
+          type="submit"
+        >
+          {isPending ? "Placing your order..." : "Place Order"}
+        </button>
       </form>
+
+      <PaymentModal
+        open={open}
+        setOpen={setOpen}
+        orderId={orderId}
+        trackingNumber={trackingNumber}
+      />
     </div>
   );
 };

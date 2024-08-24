@@ -7,11 +7,12 @@ const customerSchema = z.object({
     .max(255, { message: "Name is too long*" }),
   email: z
     .string({ message: "Email is required*" })
+    .min(1, { message: "Email is required*" })
     .email({ message: "Invalid email*" }),
   phone: z
     .string({ message: "Phone is required*" })
     .min(8, { message: "Phone is required*" }),
-  paymentMethod: z.string({ message: "Payment method is required*" }),
+  paymentMethod: z.string({ message: "Please select a payment method*" }),
   shippingAddress: z.object({
     street: z
       .string({ message: "Street is required*" })

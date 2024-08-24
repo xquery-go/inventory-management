@@ -141,7 +141,7 @@ const CartItem = ({
             alt={name}
             width={100}
             height={100}
-            className="object-cover rounded-md size-20"
+            className="object-cover rounded-md min-w-20 min-h-20 size-20"
           />
         </div>
         <div>
