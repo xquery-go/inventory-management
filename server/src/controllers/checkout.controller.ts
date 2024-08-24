@@ -76,8 +76,8 @@ export const createPaymentLink = async (
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/order/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.CLIENT_URL}/order/cancel`,
+      success_url: `${process.env.CLIENT_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}&trackingNumber=${order.trackingNumber}`,
+      cancel_url: `${process.env.CLIENT_URL}/checkout/error`,
       customer_email: customer.email,
       metadata: {
         orderId: order._id.toString(),
