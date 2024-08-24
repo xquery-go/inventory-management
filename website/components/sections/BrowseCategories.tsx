@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { categoriesData } from "@/utils/data";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { SectionTitle } from "../helpers";
+import { CategoryCard, SectionTitle } from "../helpers";
 import {
   Carousel,
   CarouselContent,
@@ -106,30 +106,5 @@ export const BrowseCategories = () => {
         </Carousel>
       </div>
     </section>
-  );
-};
-
-const CategoryCard = ({
-  title,
-  image,
-  id,
-}: {
-  title: string;
-  image: string;
-  id: string;
-}) => {
-  return (
-    <div className="border border-primaryCol bg-supportBg py-5 max-w-[200px] overflow-hidden h-full">
-      <div className="w-full center">
-        <Image
-          src={image}
-          alt=""
-          width={70}
-          height={70}
-          className="object-cover size-[80px]"
-        />
-      </div>
-      <h3 className="text-center font-medium mt-2 select-none">{title}</h3>
-    </div>
   );
 };

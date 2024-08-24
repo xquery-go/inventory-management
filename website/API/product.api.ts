@@ -20,7 +20,7 @@ export const getAllProducts = async ({
 
     return {
       success: data.success,
-      response: data.data,
+      response: data,
     };
   } catch (error: any) {
     return {
@@ -37,6 +37,38 @@ export const getSingleProduct = async (id: string) => {
     return {
       success: true,
       response: data.data,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      response: error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};
+
+export const getProductsByCategory = async ({
+  page,
+  limit,
+  search,
+  filter,
+  categoryId,
+}: {
+  categoryId: string;
+  limit: number;
+  page: number;
+  filter?: string;
+  search?: string;
+}) => {
+  try {
+    const { data } = await api.get(
+      `/products/category/${categoryId}?limit=${limit || 15}&page=${page || 1}&search=${
+        search || ""
+      }&filter=${filter || ""}`
+    );
+
+    return {
+      success: data.success,
+      response: data,
     };
   } catch (error: any) {
     return {

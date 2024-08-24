@@ -85,7 +85,10 @@ export const Cart = () => {
             </div>
 
             <Link href="/checkout" onClick={() => handleOpenChange(false)}>
-              <button className="bg-primaryCol w-full py-3 text-center text-white mt-4 rounded-sm text-[16px]">
+              <button
+                disabled={cartData.cartItems.length === 0}
+                className="disabled:opacity-80 bg-primaryCol w-full py-3 text-center text-white mt-4 rounded-sm text-[16px]"
+              >
                 Proceed to Checkout
               </button>
             </Link>

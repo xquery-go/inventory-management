@@ -5,10 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllProducts } from "@/API/product.api";
 import { ProductCartSkeleton } from "../skeletons";
 import { IProduct } from "@/types/types";
+import Link from "next/link";
 
 export const Products = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["landing-products"],
     queryFn: () => getAllProducts({ page: 1, limit: 8 }),
   });
 
@@ -22,8 +23,8 @@ export const Products = () => {
       <div className="mt-10 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 sm:gap-y-8">
         {isLoading ? (
           <ProductCartSkeleton />
-        ) : data && data.response.length > 0 ? (
-          data.response.map((product: IProduct, index: number) => (
+        ) : data && data.response.data.length > 0 ? (
+          data.response.data.map((product: IProduct, index: number) => (
             <ProductCard key={index} product={product} />
           ))
         ) : (
@@ -32,10 +33,11 @@ export const Products = () => {
           </div>
         )}
       </div>
-
-      <button className="bg-primaryCol text-white py-2.5 px-8 mt-10 mx-auto block">
-        Explore More
-      </button>
+      <Link href="/products">
+        <button className="bg-primaryCol text-white py-2.5 px-8 mt-10 mx-auto block">
+          Explore More
+        </button>
+      </Link>
     </section>
   );
 };

@@ -3,8 +3,10 @@ import useCartStore, { getStateValues } from "@/store/cart.store";
 import { IProduct } from "@/types/types";
 import { Heart, Star } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export const ProductCard = ({ product }: { product: IProduct }) => {
+  const router = useRouter();
   const { name, imageUrls, _id, category, price } = product;
   const setCartData = useCartStore((state) => state.setValues);
 
@@ -47,7 +49,7 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
           alt={name}
           width={500}
           height={500}
-          className="object-cover w-full h-[250px]"
+          className="object-cover w-full sm:h-[250px] h-[200px]"
         />
         <button
           onClick={() => addProductToCart()}
@@ -60,16 +62,16 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
         </button>
       </div>
       <div>
-        <h4 className="text-lg font-semibold mt-5">{name}</h4>
+        <h4 onClick={() => router.push(`/products/${_id}`)} className="sm:text-lg font-semibold mt-5 cursor-pointer">{name}</h4>
         <div className="mt-2 flex max-sm:flex-col sm:items-center sm:justify-between gap-x-2">
-          <p className="text-lg text-primaryCol font-semibold">${price}</p>
+          <p className="sm:text-lg text-primaryCol font-semibold">${price}</p>
           <div className="flex items-center gap-x-1">
             <Star className="size-4" fill="#ffb703" />
             <Star className="size-4" fill="#ffb703" />
             <Star className="size-4" fill="#ffb703" />
             <Star className="size-4" fill="#ffb703" />
             <Star className="size-4" fill="#ffb703" />
-            <p className="text-sm text-gray-500 select-none">(35)</p>
+            <p className="sm:text-sm text-xs text-gray-500 select-none">(35)</p>
           </div>
         </div>
       </div>

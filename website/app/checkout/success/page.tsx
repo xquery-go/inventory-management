@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const SuccessPage = () => {
+const SuccessPage = ({
+  searchParams,
+}: {
+  searchParams: { trackingNumber: string };
+}) => {
+  const { trackingNumber } = searchParams;
   return (
     <section className="section container py-24 min-h-[50vh]">
       <div className="flex flex-col items-center">
@@ -22,7 +27,7 @@ const SuccessPage = () => {
         </p>
         <p className="text-center">
           Your order number is:{" "}
-          <span className="font-medium">#TKB-123-456</span>
+          <span className="font-medium">#{trackingNumber}</span>
         </p>
       </div>
       <Link href="/" className="block mx-auto w-fit">

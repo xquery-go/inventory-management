@@ -27,14 +27,11 @@ export const Header = () => {
           <Link href="/" className="link">
             Home
           </Link>
-          <Link href="/" className="link">
+          <Link href="/products" className="link">
+            Products
+          </Link>
+          <Link href="/category" className="link">
             Categories
-          </Link>
-          <Link href="/" className="link">
-            Featured
-          </Link>
-          <Link href="/" className="link">
-            Contact
           </Link>
         </nav>
         {isOpen && (
@@ -51,25 +48,18 @@ export const Header = () => {
                 Home
               </Link>
               <Link
-                href="/"
+                href="/products"
+                className="link text-lg"
+                onClick={() => setIsOpen(false)}
+              >
+                Products
+              </Link>
+              <Link
+                href="/category"
                 className="link text-lg"
                 onClick={() => setIsOpen(false)}
               >
                 Categories
-              </Link>
-              <Link
-                href="/"
-                className="link text-lg"
-                onClick={() => setIsOpen(false)}
-              >
-                Featured
-              </Link>
-              <Link
-                href="/"
-                className="link text-lg"
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
               </Link>
             </div>
           </div>
