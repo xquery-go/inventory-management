@@ -23,7 +23,7 @@ export const Products = () => {
       <div className="mt-10 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 sm:gap-y-8">
         {isLoading ? (
           <ProductCartSkeleton />
-        ) : data && data.response.data.length > 0 ? (
+        ) : data && data.success && data.response.data.length > 0 ? (
           data.response.data.map((product: IProduct, index: number) => (
             <ProductCard key={index} product={product} />
           ))

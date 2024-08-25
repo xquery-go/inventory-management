@@ -69,6 +69,3 @@ jobs:
         run: |
           cd website
           pm2 restart website || pm2 start npm --name "website" -- start
-
-      - name: Reload Nginx
-        run: sudo service nginx restart

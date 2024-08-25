@@ -86,7 +86,7 @@ export const BrowseCategories = () => {
                   </CarouselItem>
                 ))}
               </>
-            ) : data && data.response.data.length > 0 ? (
+            ) : data && data.success && data.response.data.length > 0 ? (
               data.response.data.map((category: ICategory, index: number) => (
                 <CarouselItem
                   key={index}
